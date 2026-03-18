@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>amaze FX Wallet — Case Study · Tracy</title>
+  <title>Card Tracker · Tracy</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -163,7 +163,7 @@
     .cs-hero-title {
       font-family: var(--font-display);
       font-size: clamp(2.6rem, 4.5vw, 4.8rem);
-      font-weight: 400;
+      font-weight: 500;
       line-height: 1.05;
       letter-spacing: -0.02em;
       margin-bottom: 24px;
@@ -251,6 +251,7 @@
       line-height: 1.85;
       color: var(--ink-soft);
       margin-bottom: 16px;
+      font-weight: 400;
     }
     .cs-section p:last-child { margin-bottom: 0; }
     .cs-section p strong { color: var(--ink); font-weight: 500; }
@@ -304,7 +305,7 @@
       color: var(--ink);
       margin-bottom: 8px;
     }
-    .cs-card p { font-size: 0.82rem; margin: 0; }
+    .cs-card p { font-size: 0.82rem; margin: 0; font-weight: 400; }
 
     /* Constraint block */
     .cs-constraint {
@@ -458,7 +459,7 @@
       padding-top: 2px;
     }
     .cs-step-title { font-size: 0.85rem; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
-    .cs-step-desc  { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+    .cs-step-desc  { font-size: 0.8rem; color: var(--muted); line-height: 1.6; font-weight: 400; }
 
     /* Outcomes */
     .outcomes-grid {
@@ -486,7 +487,7 @@
       font-family: var(--font-display);
       font-size: clamp(1.8rem, 3vw, 3rem);
       font-weight: 400; color: var(--ink);
-      margin-bottom: 28px; line-height: 1.15;
+      margin-bottom: 28px; line-height: 1.15;  font-weight: 500;    /* add this */
     }
     .cs-next-link {
       display: inline-flex; align-items: center; gap: 10px;
@@ -563,7 +564,7 @@
         <!-- LEFT: existing content -->
           <div>
             <h1 class="cs-hero-title fade-up">
-            Knowing where your card is,<br/><em>before</em> you ask
+            Knowing where your card is, <em>before</em> you ask
             </h1>
             <p class="cs-hero-sub fade-up delay-1">
             Real-time card delivery tracking that reduced delivery-related support enquiries by 40% — by giving users visibility at every step of the journey.

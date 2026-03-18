@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Works — Tracy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .works-hero { padding: 80px 0 60px; border-bottom: 1px solid var(--sand); }
+    .works-hero-inner { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
+    .works-title { font-family: var(--font-display); font-size: clamp(2.8rem, 5vw, 5rem); font-weight: 400; line-height: 1.0; letter-spacing: -0.02em; }
+    .works-title em { font-style: italic; color: var(--accent); }
+    .works-count { font-family: var(--font-display); font-size: 1rem; color: var(--muted); margin-bottom: 8px; }
+
+    .filter-bar {
+      padding: 20px 0;
+      border-bottom: 1px solid var(--sand);
+      position: sticky;
+      top: var(--nav-h);
+      background: rgba(250,248,245,0.94);
+      backdrop-filter: blur(12px);
+      z-index: 10;
+    }
+    .filter-inner { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .filter-label { font-size: 0.75rem; color: var(--muted); margin-right: 4px; letter-spacing: 0.06em; }
+    .filter-btn {
+      font-family: var(--font-body);
+      font-size: 0.78rem; font-weight: 400; letter-spacing: 0.04em;
+      color: var(--ink-soft); background: transparent;
+      border: 1px solid var(--sand); border-radius: 2px;
+      padding: 7px 16px; cursor: pointer;
+      transition: all 0.2s var(--ease-soft);
+    }
+    .filter-btn:hover { border-color: var(--stone); background: var(--warm-white); }
+    .filter-btn.active { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+    .filter-divider { width: 1px; height: 16px; background: var(--sand); margin: 0 4px; }
+    .sort-group { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+
+    .works-section { padding: 48px 0 100px; }
+    .works-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+
+    .year-divider {
+      grid-column: 1 / -1;
+      display: flex; align-items: center; gap: 16px;
+      padding: 16px 0 8px;
+    }
+    .year-divider span { font-family: var(--font-display); font-size: 0.85rem; color: var(--stone); white-space: nowrap; }
+    .year-divider::after { content: ''; flex: 1; height: 1px; background: var(--sand); }
+
+    .project-card.hidden { display: none; }
+    .empty-state { grid-column: 1 / -1; text-align: center; padding: 80px 20px; display: none; }
+    .empty-state.visible { display: block; }
+    .empty-state p { font-family: var(--font-display); font-size: 1.5rem; color: var(--stone); font-style: italic; }
+
+    @media (max-width: 900px) { .works-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .works-grid { grid-template-columns: 1fr; } .sort-group { display: none; } }
+  </style>
+</head>
+<body>
+  <nav id="nav">
+    <a href="index.html" class="nav-logo">
+      <img src="logo.svg" alt="" class="nav-logo-img" />
+      Tracy.
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="works.html" class="active">Works</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="mailto:tracy@email.com" class="nav-cta">Say hello</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-content">
+    <div class="works-hero">
+      <div class="container">
+        <div class="works-hero-inner">
+          <div>
+            <p class="label fade-up" style="margin-bottom:16px;">All Work</p>
+            <h1 class="works-title fade-up delay-1">Things I've<br/><em>designed</em></h1>
+          </div>
+          <div class="fade-up delay-2" style="text-align:right;">
+            <div class="works-count">7 projects</div>
+            <p style="font-size:0.85rem;color:var(--muted);max-width:260px;line-height:1.5;">From fintech wallets to design systems — a record of work I'm proud of.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="filter-bar">
+      <div class="container">
+        <div class="filter-inner">
+          <span class="filter-label">Filter</span>
+          <button class="filter-btn active" data-filter="all">All</button>
+          <div class="filter-divider"></div>
+          <button class="filter-btn" data-filter="mobile">Mobile</button>
+          <button class="filter-btn" data-filter="web">Web</button>
+          <button class="filter-btn" data-filter="system">System</button>
+          <div class="filter-divider"></div>
+          <button class="filter-btn" data-filter="fintech">Fintech</button>
+          <button class="filter-btn" data-filter="b2b">B2B</button>
+          <button class="filter-btn" data-filter="growth">Growth</button>
+          <div class="sort-group">
+            <span class="filter-label">Sort</span>
+            <button class="filter-btn active" id="sort-recent">Recent</button>
+            <button class="filter-btn" id="sort-alpha">A–Z</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="works-section">
+      <div class="container">
+        <div class="works-grid" id="works-grid">
+          <div class="year-divider"><span>2024</span></div>
+
+          <a href="case-study.html" class="project-card fade-up" data-tags="mobile fintech" data-title="amaze Multicurrency FX Wallet" data-year="2024">
+            <div class="project-card-image placeholder"><span>✦</span></div>
+            <div class="project-card-body">
+              <div class="project-card-meta"><span class="tag accent">Featured</span><span class="tag">Fintech</span><span class="tag">Mobile</span></div>
+              <div class="project-card-title">amaze — Multicurrency FX Wallet</div>
+              <p class="project-card-desc">End-to-end redesign of card management and FX payments for travellers.</p>
+            </div>
+            <div class="project-card-footer"><span>iOS &amp; Android · 2024</span><span class="arrow">↗</span></div>
+          </a>
+
+          <a href="case-study.html" class="project-card fade-up delay-1" data-tags="mobile fintech" data-title="Auto Top-Up" data-year="2024">
+            <div class="project-card-image placeholder"><span>↺</span></div>
+            <div class="project-card-body">
+              <div class="project-card-meta"><span class="tag">Fintech</span><span class="tag">Mobile</span></div>
+              <div class="project-card-title">Auto Top-Up &amp; Decline Recovery</div>
+              <p class="project-card-desc">Wallet automation users trust — and a safety net they don't have to think about.</p>
+            </div>
+            <div class="project-card-footer"><span>iOS &amp; Android · 2024</span><span class="arrow">↗</span></div>
+          </a>
+
+          <a href="case-study.html" class="project-card fade-up delay-2" data-tags="mobile growth" data-title="Onboarding Redesign" data-year="2024">
+            <div class="project-card-image placeholder"><span>◇</span></div>
+            <div class="project-card-body">
+              <div class="project-card-meta"><span class="tag">Onboarding</span><span class="tag">Growth</span><span class="tag">Mobile</span></div>
+              <div class="project-card-title">Onboarding Redesign</div>
+              <p class="project-card-desc">Progressive disclosure that halved drop-off at the first key action.</p>
+            </div>
+            <div class="project-card-footer"><span>Mobile · 2024</span><span class="arrow">↗</span></div>
+          </a>
+
+          <div class="year-divider"><span>2023</span></div>
+
+          <a href="case-study.html" class="project-card fade-up" data-tags="web b2b" data-title="Merchant Analytics Dashboard" data-year="2023">
+            <div class="project-card-image placeholder"><span>◈</span></div>
+            <div class="project-card-body">
+              <div class="project-card-meta"><span class="tag">Dashboard</span><span class="tag">B2B</span><span class="tag">Web</span></div>
+              <div class="project-card-title">Merchant Analytics Dashboard</div>
+              <p class="project-card-desc">The metrics that matter, without the noise.</p>
+            </div>
+            <div class="project-card-footer"><span>Web · 2023</span><span class="arrow">↗</span></div>
+          </a>
+
+          <a href="case-study.html" class="project-card fade-up delay-1" data-tags="mobile growth fintech" data-title="Referral Program" data-year="2023">
+            <div class="project-card-image placeholder"><span>⊕</span></div>
+            <div class="project-card-body">
+              <div class="project-card-meta"><span class="tag">Growth</span><span class="tag">Mobile</span></div>
+              <div class="project-card-title">Referral Program</div>
+              <p class="project-card-desc">A referral mechanic that felt rewarding, not transactional — 3× sign-up uplift.</p>
+            </div>
+            <div class="project-card-footer"><span>Mobile · 2023</span><span class="arrow">↗</span></div>
+          </a>
+
+          <div class="year-divider"><span>2022</span></div>
+
+          <a href="case-study.html" class="project-card fade-up" data-tags="system" data-title="Design System" data-year="2022">
+            <div class="project-card-image placeholder"><span>○</span></div>
+            <div class="project-card-body">
+              <div class="project-card-meta"><span class="tag">Design System</span><span class="tag">System</span></div>
+              <div class="project-card-title">Component Library &amp; Design System</div>
+              <p class="project-card-desc">A shared visual language that scaled across web, iOS, and Android.</p>
+            </div>
+            <div class="project-card-footer"><span>Cross-platform · 2022</span><span class="arrow">↗</span></div>
+          </a>
+
+          <a href="case-study.html" class="project-card fade-up delay-1" data-tags="web b2b" data-title="B2B Merchant Onboarding" data-year="2022">
+            <div class="project-card-image placeholder"><span>□</span></div>
+            <div class="project-card-body">
+              <div class="project-card-meta"><span class="tag">B2B</span><span class="tag">Web</span></div>
+              <div class="project-card-title">B2B Merchant Onboarding Portal</div>
+              <p class="project-card-desc">Reducing merchant go-live from 2 weeks to 3 days via self-serve setup.</p>
+            </div>
+            <div class="project-card-footer"><span>Web · 2022</span><span class="arrow">↗</span></div>
+          </a>
+
+          <div class="empty-state" id="empty-state">
+            <p>No projects match this filter.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <span class="footer-name">Tracy.</span>
+    <ul class="footer-links">
+      <li><a href="works.html">Works</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="https://linkedin.com" target="_blank">LinkedIn</a></li>
+      <li><a href="mailto:tracy@email.com">Email</a></li>
+    </ul>
+    <span class="footer-copy">© 2025 Tracy</span>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 20));
+    const obs = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) e.target.style.animationPlayState = 'running'; }), { threshold: 0.05 });
+    document.querySelectorAll('.fade-up').forEach(el => { el.style.animationPlayState = 'paused'; obs.observe(el); });
+
+    const filterBtns = document.querySelectorAll('.filter-btn[data-filter]');
+    const cards = document.querySelectorAll('.project-card[data-tags]');
+    const yearDividers = document.querySelectorAll('.year-divider');
+    const emptyState = document.getElementById('empty-state');
+
+    function applyFilter(filter) {
+      let visible = 0;
+      cards.forEach(card => {
+        const match = filter === 'all' || card.dataset.tags.includes(filter);
+        card.classList.toggle('hidden', !match);
+        if (match) visible++;
+      });
+      yearDividers.forEach(div => {
+        let el = div.nextElementSibling; let has = false;
+        while (el && !el.classList.contains('year-divider')) {
+          if (el.classList.contains('project-card') && !el.classList.contains('hidden')) { has = true; break; }
+          el = el.nextElementSibling;
+        }
+        div.style.display = has ? '' : 'none';
+      });
+      emptyState.classList.toggle('visible', visible === 0);
+    }
+
+    filterBtns.forEach(btn => btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      applyFilter(btn.dataset.filter);
+    }));
+
+    document.getElementById('sort-alpha').addEventListener('click', function() {
+      document.getElementById('sort-recent').classList.remove('active');
+      this.classList.add('active');
+      const grid = document.getElementById('works-grid');
+      const sorted = [...cards].sort((a,b) => a.dataset.title.localeCompare(b.dataset.title));
+      yearDividers.forEach(d => d.style.display = 'none');
+      sorted.forEach(c => grid.appendChild(c));
+    });
+    document.getElementById('sort-recent').addEventListener('click', function() {
+      document.getElementById('sort-alpha').classList.remove('active');
+      this.classList.add('active');
+      location.reload();
+    });
+  </script>
+</body>
+</html>
