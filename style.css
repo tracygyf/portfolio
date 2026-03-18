@@ -458,3 +458,43 @@ h1, h2, h3, h4, h5 {
   object-position: center;
 }
 }
+
+/* ============================================
+   PROCESS STEP
+   ============================================ */
+.cs-process-step {
+  margin-top: 48px;
+}
+.cs-process-step-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.cs-process-step-num {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--accent);
+  opacity: 1;
+  font-weight: 400;
+  flex-shrink: 0;
+}
+.cs-process-step-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.2;
+  margin: 0;
+}
+.cs-process-img {
+  display: block;
+  width: 100%;
+  margin-top: 24px;
+  border-radius: 8px;
+  aspect-ratio: unset;
+  height: auto;
+  object-fit: cover;
+  background: rgba(255, 255, 255, 0);
+  border: 0px solid var(--sand);
+}

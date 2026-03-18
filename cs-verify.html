@@ -529,6 +529,15 @@
       .cs-meta-item { padding: 12px 0; border-bottom: 1px solid rgba(44,40,37,0.08); margin-right: 0; }
       .outcomes-grid { grid-template-columns: 1fr; }
     }
+
+    .cs-process-step-num {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      color: var(--accent);
+      opacity: 1;
+      margin-right: 10px;
+      font-weight: 400;
+    }
   </style>
 </head>
 <body>
@@ -598,8 +607,8 @@
         </div>
       </section>
 
-      <!-- ② PROBLEM — warm white -->
-      <section class="cs-section bg-warm" id="problem">
+      <!-- ② PROBLEM — cream -->
+      <section class="cs-section bg-cream" id="problem">
         <div class="cs-section-inner">
           <div class="cs-section-label">Problem</div>
           <h2>Errors only showed up at the worst possible time</h2>
@@ -626,40 +635,44 @@
         </div>
       </section>
 
-      <!-- ③ PROCESS — cream -->
-      <section class="cs-section bg-cream" id="process">
+      <!-- ③ PROCESS — warm white -->
+      <section class="cs-section bg-warm" id="process">
         <div class="cs-section-inner">
           <div class="cs-section-label">Process</div>
           <h2>How the design came together</h2>
 
-          <div class="cs-steps">
-            <div class="cs-step">
-              <div class="cs-step-num">01</div>
-              <div>
-                <div class="cs-step-title">Discovery &amp; problem framing</div>
-                <div class="cs-step-desc">Started by mapping where in the payment lifecycle errors were actually occurring. Reviewed how the existing add-beneficiary flow worked end-to-end and identified the gap: details were accepted at face value with no upfront checks. Errors only surfaced at transaction time, after full approval chains had been completed. This framed the core design question — how do you catch problems at the point of creation, not at the point of payment?</div>
-              </div>
+          <div class="cs-process-step">
+            <div class="cs-process-step-header">
+              <span class="cs-process-step-num">01</span>
+              <h3 class="cs-process-step-title">Discovery &amp; problem framing</h3>
             </div>
-            <div class="cs-step">
-              <div class="cs-step-num">02</div>
-              <div>
-                <div class="cs-step-title">Wireframing &amp; exploring edge cases</div>
-                <div class="cs-step-desc">Explored inline versus modal-based approaches to surfacing the Nium Verify check. Early wireframes tested a modal-first pattern but it added unnecessary friction to a flow that most users would complete without issues. Settled on inline result states that sit within the existing save flow. Alongside the primary verified state, each edge case — unsupported, failed, and system error — was mapped as its own design problem with its own language and next action.</div>
-              </div>
-            </div>
-            <div class="cs-step">
-              <div class="cs-step-num">03</div>
-              <div>
-                <div class="cs-step-title">Stakeholder reviews &amp; iteration</div>
-                <div class="cs-step-desc">Shared early concepts with the product lead and engineering. Key feedback centred on two things: the unsupported state and the tone of the error copy. Iterated across several rounds to move away from technical validation language toward outcome-oriented guidance users could actually act on. The contacts list status system was added following a review that surfaced the need for persistent visibility once a beneficiary was saved, not just at the point of adding them.</div>
-              </div>
-            </div>
+            <p>Started by mapping where in the payment lifecycle errors were actually occurring. Reviewed how the existing add-beneficiary flow worked end-to-end and identified the gap: details were accepted at face value with no upfront checks. Errors only surfaced at transaction time, after full approval chains had been completed.</p>
+            <img src="images/process-01.png" alt="Discovery — flow mapping and problem framing" class="cs-process-img" />
           </div>
+
+          <div class="cs-process-step">
+            <div class="cs-process-step-header">
+              <span class="cs-process-step-num">02</span>
+              <h3 class="cs-process-step-title">Wireframing &amp; exploring edge cases</h3>
+            </div>
+            <p>Explored inline versus modal-based approaches to surfacing the Nium Verify check. Early wireframes tested a modal-first pattern but it added unnecessary friction to a flow most users complete without issues. Settled on inline result states within the existing save flow, with each edge case treated as its own design problem.</p>
+            <img src="images/process-02.png" alt="Wireframing — early explorations and edge case states" class="cs-process-img" />
+          </div>
+
+          <div class="cs-process-step">
+            <div class="cs-process-step-header">
+              <span class="cs-process-step-num">03</span>
+              <h3 class="cs-process-step-title">Stakeholder reviews &amp; iteration</h3>
+            </div>
+            <p>Shared early concepts with the product lead and engineering. Key feedback centred on the unsupported state and the tone of error copy. Iterated across several rounds toward outcome-oriented guidance. The contacts list status system was added after a review surfaced the need for persistent visibility post-save.</p>
+            <img src="images/process-03.png" alt="Iteration — reviewed screens and updated designs" class="cs-process-img" />
+          </div>
+
         </div>
       </section>
 
-      <!-- ④ SOLUTION PART 1 — pale -->
-      <section class="cs-section bg-pale" id="solution-1">
+      <!-- ④ SOLUTION PART 1 — cream -->
+      <section class="cs-section bg-cream" id="solution-1">
         <div class="cs-section-inner">
           <div class="cs-section-label">Solution 1/2</div>
           <h2>Validate at the moment of creation, not payment</h2>
@@ -707,7 +720,7 @@
         </div>
       </section>
 
-      <!-- ④ SOLUTION PART 2 — warm -->
+      <!-- ④ SOLUTION PART 2 — warmwhite -->
       <section class="cs-section bg-warm" id="solution-2">
         <div class="cs-section-inner">
           <div class="cs-section-label">Solution 2/2</div>
@@ -737,8 +750,8 @@
         </div>
       </section>
 
-      <!-- ⑤ DESIGN DECISIONS — cream -->
-      <section class="cs-section bg-cream" id="decisions">
+      <!-- ⑤ DESIGN DECISIONS — pale accent -->
+      <section class="cs-section bg-pale" id="decisions">
         <div class="cs-section-inner">
           <div class="cs-section-label">Design Decisions</div>
           <h2>Where the thinking happened</h2>

@@ -556,9 +556,7 @@
         <li><a href="#overview"    class="active">Overview</a></li>
         <li><a href="#problem"    >Problem</a></li>
         <li><a href="#process"    >Process</a></li>
-        <li><a href="#solution"   >Solution</a></li>
-        <li><a href="#outcomes"   >Outcomes</a></li>
-        <li><a href="#reflections">Reflections</a></li>
+        <li><a href="#outcome"   >Outcome</a></li>
       </ul>
     </aside>
 
@@ -596,15 +594,15 @@
       </section>
 
       <!-- ② CHALLENGE — warm white -->
-      <section class="cs-section bg-warm" id="challenge">
+      <section class="cs-section bg-warm" id="problem">
         <div class="cs-section-inner">
-          <div class="cs-section-label">01 — Challenge</div>
+          <div class="cs-section-label">Problem</div>
           <h2>Four separate systems, four times the maintenance</h2>
           <p>The company's design ecosystem was highly fragmented. Designers across the consumer app, consumer web, business solutions, and marketing websites each worked with different design languages, tones of voice, and component libraries.</p>
 
           <div class="cs-two-col">
             <div class="cs-card">
-              <div class="cs-card-icon" style="background:#FEF3C7;">⚡</div>
+              <div class="cs-card-icon" style="background:#F2E8E4;">⚡</div>
               <h4>Operational inefficiency</h4>
               <p>4 separate design systems meant every team was recreating similar components independently, wasting time and creating drift.</p>
             </div>
@@ -625,47 +623,65 @@
       <!-- ③ PROCESS — cream -->
       <section class="cs-section bg-cream" id="process">
         <div class="cs-section-inner">
-          <div class="cs-section-label">02 — Process</div>
+          <div class="cs-section-label">Process</div>
           <h2>From audit to architecture to a unified system</h2>
 
-          <div class="cs-steps">
-            <div class="cs-step">
-              <div class="cs-step-num">1</div>
-              <div>
-                <div class="cs-step-title">Revisiting Information Architecture</div>
-                <div class="cs-step-desc">Audited the IA across all platforms — consumer app, SME solutions, marketing websites — to identify patterns, inconsistencies, and areas where navigation felt disjointed or repetitive.</div>
-              </div>
+          <div class="cs-process-step">
+            <div class="cs-process-step-header">
+              <span class="cs-process-step-num">01</span>
+              <h3 class="cs-process-step-title">Revisiting Information Architecture</h3>
             </div>
-            <div class="cs-step">
-              <div class="cs-step-num">2</div>
-              <div>
-                <div class="cs-step-title">Re-envisioning UI & Design Principles</div>
-                <div class="cs-step-desc">Introduced a scalable "Bento" grid system, optimised tertiary colour usage for hierarchy, and adjusted contrast and typography to meet WCAG accessibility guidelines.</div>
-              </div>
-            </div>
-            <div class="cs-step">
-              <div class="cs-step-num">3</div>
-              <div>
-                <div class="cs-step-title">Usability Testing</div>
-                <div class="cs-step-desc">Ran tests on UserTesting.com covering in-app navigation, A/B variants of key UI components, and qualitative feedback on the new visual design versus the existing one.</div>
-              </div>
-            </div>
+            <p>To establish a unified system, I first needed a deep understanding of the existing product structures. This involved:</p>
+            <p>• Auditing the IA across all platforms (consumer app, SME solutions, websites) to identify patterns and inconsistencies.</p>
+            <p>• Mapping out how each product currently functioned, revealing areas where navigation felt disjointed or repetitive.</p>
+            <p>• Establishing a standardised, logical IA that would align products under a single framework while allowing necessary distinctions for different user needs.</p>
+            <img src="images/ds-process-01.png" alt="Revisiting Information Architecture" class="cs-process-img" />
           </div>
 
-          <div class="cs-screenshot-slot">
-            <span class="slot-icon">🖼</span>
-            <p>Insert image — Bento grid system and IA mapping</p>
+          <div class="cs-process-step">
+            <div class="cs-process-step-header">
+              <span class="cs-process-step-num">02</span>
+              <h3 class="cs-process-step-title">Re-envisioning UI & Design Principles</h3>
+            </div>
+            <p>I focused on introducing a scalable "Bento" grid system, optimised tertiary colour usage for hierarchy, and adjusted contrast and typography to meet WCAG accessibility guidelines. (Colors are omitted in the example images for confidential purposes)</p>
+            <img src="images/ds-process-02.png" alt="Re-envisioning UI & Design Principles" class="cs-process-img" />
+          </div>
+
+          <div class="cs-process-step">
+            <div class="cs-process-step-header">
+              <span class="cs-process-step-num">03</span>
+              <h3 class="cs-process-step-title">Usability Testing</h3>
+            </div>
+            <p>Since this was a major design revamp, I needed to ensure that core pages and user flows remained intuitive post-redesign. I ran usability tests on UserTesting.com to gather insights on the following:</p>
+            <div class="cs-two-col">
+            <div class="cs-card">
+              <div class="cs-card-icon" style="background:#F2E8E4;">📱</div>
+              <h4>In-app navigation</h4>
+              <p>Find out whether users intuitively knew where to go or faced confusion in the grouping of information.</p>
+            </div>
+            <div class="cs-card">
+              <div class="cs-card-icon" style="background:#F2E8E4;">🆎</div>
+              <h4>A/B testing</h4>
+              <p>Test different variations of UI components and layouts to determine the most user-friendly version.</p>
+            </div>
+            <div class="cs-card">
+              <div class="cs-card-icon" style="background:#F2E8E4;">💬</div>
+              <h4>Qualitative feedback:</h4>
+              <p>Find out what users liked, found confusing, or felt was missing. In addition, we looked into what they thought about the new visual appeal compared to the existing design.</p>
+            </div>
+          </div>
           </div>
         </div>
       </section>
 
+
       <!-- ④ OUTCOME — dark -->
       <section class="cs-section bg-dark" id="outcome">
         <div class="cs-section-inner">
-          <div class="cs-section-label">03 — Outcome</div>
+          <div class="cs-section-label">Outcome</div>
           <h2>One system. Every platform.</h2>
           <p>A unified design system that harmonises branding, tone, and user flows across the consumer app, business solutions, and marketing websites. Built to scale across web and mobile using reusable assets and the flexible Bento framework.</p>
-
+          <img src="images/ds-outcome-01.png" alt="Revamp outcome" class="cs-process-img" />  
           <div class="outcomes-grid">
             <div class="outcome-card">
               <div class="outcome-stat">4 → 1</div>
