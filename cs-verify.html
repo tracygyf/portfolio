@@ -541,7 +541,7 @@
     <ul class="nav-links">
       <li><a href="index.html" class="active">Work</a></li>
       <li><a href="about.html">About</a></li>
-      <li><a href="mailto:tracygohyf@gmail.com" class="nav-cta">Say hello</a></li>
+      <li><a href="/cdn-cgi/l/email-protection#8ffbfdeeecf6e8e0e7f6e9cfe8e2eee6e3a1ece0e2" class="nav-cta">Say hello</a></li>
     </ul>
   </nav>
 
@@ -555,6 +555,7 @@
       <ul class="cs-nav" id="cs-nav">
         <li><a href="#overview"    class="active">Overview</a></li>
         <li><a href="#problem"    >Problem</a></li>
+        <li><a href="#process"    >Process</a></li>
         <li><a href="#solution-1"    >Solution 1/2</a></li>
         <li><a href="#solution-2"   >Solution 2/2</a></li>
         <li><a href="#decisions"   >Design Decisions</a></li>
@@ -625,8 +626,40 @@
         </div>
       </section>
 
-      <!-- ③ SOLUTION PART 1 — cream -->
-      <section class="cs-section bg-cream" id="solution-1">
+      <!-- ③ PROCESS — cream -->
+      <section class="cs-section bg-cream" id="process">
+        <div class="cs-section-inner">
+          <div class="cs-section-label">Process</div>
+          <h2>How the design came together</h2>
+
+          <div class="cs-steps">
+            <div class="cs-step">
+              <div class="cs-step-num">01</div>
+              <div>
+                <div class="cs-step-title">Discovery &amp; problem framing</div>
+                <div class="cs-step-desc">Started by mapping where in the payment lifecycle errors were actually occurring. Reviewed how the existing add-beneficiary flow worked end-to-end and identified the gap: details were accepted at face value with no upfront checks. Errors only surfaced at transaction time, after full approval chains had been completed. This framed the core design question — how do you catch problems at the point of creation, not at the point of payment?</div>
+              </div>
+            </div>
+            <div class="cs-step">
+              <div class="cs-step-num">02</div>
+              <div>
+                <div class="cs-step-title">Wireframing &amp; exploring edge cases</div>
+                <div class="cs-step-desc">Explored inline versus modal-based approaches to surfacing the Nium Verify check. Early wireframes tested a modal-first pattern but it added unnecessary friction to a flow that most users would complete without issues. Settled on inline result states that sit within the existing save flow. Alongside the primary verified state, each edge case — unsupported, failed, and system error — was mapped as its own design problem with its own language and next action.</div>
+              </div>
+            </div>
+            <div class="cs-step">
+              <div class="cs-step-num">03</div>
+              <div>
+                <div class="cs-step-title">Stakeholder reviews &amp; iteration</div>
+                <div class="cs-step-desc">Shared early concepts with the product lead and engineering. Key feedback centred on two things: the unsupported state and the tone of the error copy. Iterated across several rounds to move away from technical validation language toward outcome-oriented guidance users could actually act on. The contacts list status system was added following a review that surfaced the need for persistent visibility once a beneficiary was saved, not just at the point of adding them.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ④ SOLUTION PART 1 — pale -->
+      <section class="cs-section bg-pale" id="solution-1">
         <div class="cs-section-inner">
           <div class="cs-section-label">Solution 1/2</div>
           <h2>Validate at the moment of creation, not payment</h2>
@@ -674,8 +707,8 @@
         </div>
       </section>
 
-      <!-- ④ SOLUTION PART 2 — pale accent -->
-      <section class="cs-section bg-pale" id="solution-2">
+      <!-- ④ SOLUTION PART 2 — warm -->
+      <section class="cs-section bg-warm" id="solution-2">
         <div class="cs-section-inner">
           <div class="cs-section-label">Solution 2/2</div>
           <h2>Surface the risk in the contacts list</h2>
@@ -704,8 +737,8 @@
         </div>
       </section>
 
-      <!-- ⑤ DESIGN DECISIONS — warm white -->
-      <section class="cs-section bg-warm" id="decisions">
+      <!-- ⑤ DESIGN DECISIONS — cream -->
+      <section class="cs-section bg-cream" id="decisions">
         <div class="cs-section-inner">
           <div class="cs-section-label">Design Decisions</div>
           <h2>Where the thinking happened</h2>
@@ -739,8 +772,19 @@
           <h2>Validation moved upstream.<br/>Problems caught earlier.</h2>
           <p>The integration shifted beneficiary validation from a reactive, post-payment problem to a proactive checkpoint built into the existing workflow. Users now have visibility into the health of their contacts before they ever reach the payment flow.</p>
           <p>It's also a good example of designing around a third-party API's real-world limits rather than its ideal-state behaviour. The unsupported and graceful degradation states were as carefully considered as the primary verified flow — because that's where the edge cases that erode trust actually live.</p>
-          <div class="cs-metric-placeholder">
-            📊 Add metric from PM — e.g. "X% reduction in transaction errors attributable to invalid beneficiary details post-rollout"
+          <div class="outcomes-grid">
+            <div class="outcome-card">
+              <div class="outcome-stat">20%</div>
+              <div class="outcome-label">reduction in failed transactions attributable to invalid beneficiary details post-rollout</div>
+            </div>
+            <div class="outcome-card">
+              <div class="outcome-stat">Earlier</div>
+              <div class="outcome-label">errors caught at point of creation, before approvals and payment queues</div>
+            </div>
+            <div class="outcome-card">
+              <div class="outcome-stat">Lower</div>
+              <div class="outcome-label">operational overhead for internal teams chasing manual error follow-up</div>
+            </div>
           </div>
         </div>
       </section>
