@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tracy — Product Designer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── HERO ── */
+    .hero {
+      min-height: calc(100vh - var(--nav-h));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 40px 120px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ── BLOBS ── */
+    .hero-blobs {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(56px);
+      will-change: transform;
+      transform: translate(0, 0);
+    }
+    /* Colours defined via inline style from JS */
+
+    /* ── HERO CONTENT ── */
+    .hero-content { position: relative; z-index: 1; max-width: 780px; }
+
+    .hero-eyebrow {
+      display: flex; align-items: center; justify-content: center;
+      gap: 12px; margin-bottom: 40px;
+    }
+    .hero-eyebrow .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(0.7); }
+    }
+
+    /* ── PROSE HEADLINE ── */
+    .hero-headline {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 3.8vw, 3.6rem);
+      font-weight: 400;
+      line-height: 1.35;
+      letter-spacing: -0.01em;
+      margin-bottom: 44px;
+      color: var(--ink);
+    }
+    .hero-headline .hl-accent   { color: var(--accent); font-style: italic; }
+    .hero-headline .hl-stone    { color: var(--stone); }
+    .hero-headline .hl-strong   { font-weight: 600; color: var(--ink); }
+
+    .hero-actions { display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; }
+
+/* ── SCROLL INDICATOR ── */
+    .scroll-indicator {
+      position: absolute; bottom: 32px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      opacity: 0;
+      animation: fadeUp 0.6s var(--ease-soft) 1s forwards;
+      z-index: 1;
+    }
+    .scroll-indicator span { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--stone); }
+    .scroll-line-v {
+      width: 1px; height: 32px;
+      background: linear-gradient(to bottom, var(--stone), transparent);
+      animation: scrollPulse 2s ease-in-out 1.5s infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { transform: scaleY(1); opacity: 1; }
+      50%       { transform: scaleY(0.6); opacity: 0.4; }
+    }
+
+    .selected-work { padding: 80px 0 100px; }
+    .work-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+
+    .intro-strip {
+      margin: 80px 0;
+      padding: 64px 60px;
+      background: var(--warm-white);
+      border: 1px solid var(--sand);
+      border-radius: 4px;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .intro-label { font-family: var(--font-display); font-size: 2.5rem; font-weight: 400; line-height: 1.15; }
+    .intro-label em { font-style: italic; color: var(--accent); }
+    .intro-right p { font-size: 1rem; line-height: 1.75; color: var(--ink-soft); margin-bottom: 20px; }
+    .intro-right p:last-of-type { margin-bottom: 28px; }
+
+    .numbers-row {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--sand);
+      border: 1px solid var(--sand); border-radius: 4px; overflow: hidden; margin: 60px 0;
+    }
+    .number-item { background: var(--cream); padding: 40px 32px; text-align: center; }
+    .number-value { font-family: var(--font-display); font-size: 3rem; font-weight: 400; line-height: 1; margin-bottom: 8px; }
+    .number-value span { color: var(--accent); }
+    .number-label { font-size: 0.78rem; color: var(--muted); letter-spacing: 0.06em; }
+
+    @media (max-width: 900px) {
+      .hero { padding: 60px 20px; }
+      .work-grid { grid-template-columns: 1fr; }
+      .intro-strip { grid-template-columns: 1fr; padding: 40px 28px; gap: 32px; }
+      .numbers-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="nav">
+    <a href="index.html" class="nav-logo">
+      <!-- Replace logo.svg with your actual file name -->
+      <img src="logo.png" alt="" class="nav-logo-img" /> Tracy
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Work</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="/cdn-cgi/l/email-protection#9ce8eefdffe5fbf3f4e5fadcfbf1fdf5f0b2fff3f1" class="nav-cta">Say hello</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-content">
+
+        <!-- HERO -->
+    <section class="hero">
+
+      <div class="hero-blobs" aria-hidden="true">
+        <div class="blob" id="blob-a"></div>
+        <div class="blob" id="blob-b"></div>
+        <div class="blob" id="blob-c"></div>
+      </div>
+
+      <div class="hero-content">
+        <div class="hero-eyebrow fade-up">
+          <div class="dot"></div>
+          <span class="label">Product Designer · Singapore</span>
+        </div>
+
+        <h1 class="hero-headline fade-up delay-1">
+          </span>Product designer passionate about<br/>
+          creating <span class="hl-accent">meaningful experiences</span>, and uncovering how people think and behave.
+        </h1>
+
+   
+    </section>
+
+   <!-- SELECTED WORK -->
+    <section class="selected-work" id="works">
+      <div class="container">
+        <div class="section-header fade-up">
+          <span class="label">All Work</span>
+        </div>
+
+        <div class="work-grid">
+
+          <!-- Card 1 — featured, spans 2 cols -->
+          <a href="cs-verify.html" class="project-card fade-up delay-1">
+            <div class="project-card-image"><img src="images/verify.png" alt="Verify" /></div>
+            <div class="project-card-body">
+              <div class="project-card-title">Nium Verify — Beneficiary Validation</div>
+              <p class="project-card-desc">Moving payment validation upstream so finance teams catch bad data before it causes a failed transfer.</p>
+            </div>
+            <div class="project-card-footer"><span>View case study</span><span class="arrow">↗</span></div>
+          </a>
+
+          <!-- Card 2 -->
+          <a href="cs-design-system.html" class="project-card fade-up delay-2">
+            <div class="project-card-image"><img src="images/design-system.png" alt="Design system revamp" /></div>
+            <div class="project-card-body">
+              <div class="project-card-title">Design System Revamp</div>
+              <p class="project-card-desc">Consolidating four fragmented systems into one unified language across mobile, web, and marketing.</p>
+            </div>
+            <div class="project-card-footer"><span>View case study</span><span class="arrow">↗</span></div>
+          </a>
+
+          <!-- Card 3 -->
+          <a href="cs-card-tracker.html" class="project-card fade-up delay-1">
+            <div class="project-card-image"><img src="images/card-tracker.png" alt="Card tracker" /></div>
+            <div class="project-card-body">
+              <div class="project-card-title">Card Delivery Tracker</div>
+              <p class="project-card-desc">Real-time delivery tracking that reduced card-related support enquiries by 40%.</p>
+            </div>
+            <div class="project-card-footer"><span>View case study</span><span class="arrow">↗</span></div>
+          </a>
+
+          <!-- Card 4 -->
+          <a href="cs-xmas.html" class="project-card fade-up delay-2">
+            <div class="project-card-image"><img src="images/xmas.png" alt="Christmas splash screen" /></div>
+            <div class="project-card-body">
+              <div class="project-card-title">Christmas Splash Screen</div>
+              <p class="project-card-desc">A festive animated splash screen built in Figma and LottieFiles. Seasonal delight without disrupting the experience.</p>
+            </div>
+            <div class="project-card-footer"><span>View case study</span><span class="arrow">↗</span></div>
+          </a>
+
+          <!-- Card 5 -->
+          <a href="cs-daily-ui.html" class="project-card fade-up delay-3">
+            <div class="project-card-image"><img src="images/daily-ui.png" alt="Daily UI" /></div>
+            <div class="project-card-body">
+              <div class="project-card-title">100-Day UI Challenge</div>
+              <p class="project-card-desc">A personal commitment to daily design practice. 100 interfaces, 100 days, one progression.</p>
+            </div>
+            <div class="project-card-footer"><span>View case study</span><span class="arrow">↗</span></div>
+          </a>
+
+          <!-- Card 6 -->
+          <a href="cs-vitals.html" class="project-card fade-up delay-1">
+            <div class="project-card-image"><img src="images/vitals.jpg" alt="Vitals recording app" /></div>
+            <div class="project-card-body">
+              <div class="project-card-title">Vitals Recording App</div>
+              <p class="project-card-desc">A tablet and web app that replaced manual vital recording for elderly care: saving caregivers 1–2 hours a day.</p>
+            </div>
+            <div class="project-card-footer"><span>View case study</span><span class="arrow">↗</span></div>
+          </a>
+
+          <!-- Card 7 -->
+          <a href="cs-eye-capture.html" class="project-card fade-up delay-2">
+            <div class="project-card-image"><img src="images/eye-capture.jpg" alt="Eye capture app" /></div>
+            <div class="project-card-body">
+              <div class="project-card-title">Eye Capture App</div>
+              <p class="project-card-desc">A mobile app guiding patients through self-administered eye screening at home, increasing successful capture rates by 50%.</p>
+            </div>
+            <div class="project-card-footer"><span>View case study</span><span class="arrow">↗</span></div>
+          </a>
+
+          <!-- Card 8 -->
+          <a href="cs-virtual-dil.html" class="project-card fade-up delay-3">
+            <div class="project-card-image"><img src="images/vdil.png" alt="Virtual Digital Innovation Lab" /></div>
+            <div class="project-card-body">
+              <div class="project-card-title">Virtual Digital Innovation Lab</div>
+              <p class="project-card-desc">A Unity-built virtual lab that kept customer engagement alive through the pandemic, and sparked similar labs across Asia.</p>
+            </div>
+            <div class="project-card-footer"><span>View case study</span><span class="arrow">↗</span></div>
+          </a>
+
+        </div>
+
+        <div style="height:0;"></div>
+      </div>
+    </section>
+
+
+    <!-- INTRO STRIP -->
+    <!-- <div class="container">
+      <div class="intro-strip fade-up">
+        <div>
+          <div class="intro-label">Design that<br/><em>works</em><br/>for people</div>
+        </div>
+        <div class="intro-right">
+          <p>I'm a product designer based in Singapore with a focus on fintech and consumer mobile. I care deeply about the space between user goals and business constraints — finding solutions that respect both.</p>
+          <p>My process is collaborative and research-informed, but I'm not precious about it. Good design ships.</p>
+          <a href="about.html" class="btn btn-outline">More about me →</a>
+        </div>
+      </div>
+    </div> -->
+
+  </div>
+
+  <footer>
+    <span class="footer-name">Tracy.</span>
+    <ul class="footer-links">
+      <li><a href="https://www.linkedin.com/in/tracygyf/" target="_blank">LinkedIn</a></li>
+      <li><a href="mailto:tracygohyf@gmail.com">Email</a></li>
+    </ul>
+    <span class="footer-copy">© 2026 Tracy</span>
+  </footer>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    // ── NAV SCROLL ──
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 20));
+
+    // ── SCROLL-TRIGGERED FADE-UPS ──
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.style.animationPlayState = 'running'; });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => {
+      if (el.closest('.hero')) return;
+      el.style.animationPlayState = 'paused';
+      observer.observe(el);
+    });
+
+    // ── RANDOMISED BLOB ANIMATION ──
+    // Three colours: terracotta, dusty rose, warm stone
+    const blobConfigs = [
+  { id: 'blob-a', color: 'rgba(181,114,90,0.5)',   size: 520 },
+  { id: 'blob-b', color: 'rgba(255,220,100,0.45)', size: 520 },
+  { id: 'blob-c', color: 'rgba(255,180,200,0.45)', size: 520 },
+];
+
+    const hero = document.querySelector('.hero');
+
+  const startPositions = [
+  { x: 0.1, y: 0.1, px: 0.2, py: 0.2 },   // blob-a: top-left
+  { x: 0.6, y: 0.6, px: 0.75, py: 0.75 }, // blob-b: bottom-right
+  { x: 0.8, y: 0.1, px: 0.8, py: 0.2 },   // blob-c: top-right
+];
+
+blobConfigs.forEach((cfg, i) => {
+  const el = document.getElementById(cfg.id);
+  el.style.width  = cfg.size + 'px';
+  el.style.height = cfg.size + 'px';
+  el.style.background = `radial-gradient(circle, ${cfg.color} 0%, transparent 65%)`;
+
+  const heroW = () => hero.offsetWidth;
+  const heroH = () => hero.offsetHeight;
+
+  // Start each blob at a different position
+  let x = [0.1, 0.5, 0.8][i] * window.innerWidth;
+  let y = [0.1, 0.7, 0.2][i] * window.innerHeight;
+
+  // Give each blob a different initial direction
+  const angles = [0.4, 2.1, 4.5];
+  let vx = Math.cos(angles[i]) * 1.2;
+  let vy = Math.sin(angles[i]) * 1.2;
+
+  el.style.left = '0';
+  el.style.top  = '0';
+  el.style.transform = `translate(${x}px, ${y}px)`;
+
+  function tick() {
+  x += vx;
+  y += vy;
+
+  const W = hero.offsetWidth;
+  const H = hero.offsetHeight;
+  const s = cfg.size;
+
+  // Bounce using blob size so it doesn't escape
+  if (x < -s / 2)        { x = -s / 2;     vx = Math.abs(vx); }
+  if (x > W - s / 2)     { x = W - s / 2;  vx = -Math.abs(vx); }
+  if (y < -s / 2)        { y = -s / 2;     vy = Math.abs(vy); }
+  if (y > H - s / 2)     { y = H - s / 2;  vy = -Math.abs(vy); }
+
+  // Small random nudge
+  vx += (Math.random() - 0.5) * 0.08;
+  vy += (Math.random() - 0.5) * 0.08;
+
+  // Speed cap
+  const speed = Math.sqrt(vx * vx + vy * vy);
+  if (speed > 1.5) { vx = (vx / speed) * 1.5; vy = (vy / speed) * 1.5; }
+  if (speed < 0.5) { vx = (vx / speed) * 0.5; vy = (vy / speed) * 0.5; }
+
+  el.style.transform = `translate(${x}px, ${y}px)`;
+  requestAnimationFrame(tick);
+}
+
+  requestAnimationFrame(tick);
+});
+
+  </script>
+ </body>
+</html> 

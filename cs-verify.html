@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>amaze FX Wallet — Case Study · Tracy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+
+    /* ── LAYOUT ── */
+    /* Override page-content container constraints */
+    .page-content {
+      padding-top: var(--nav-h);
+    }
+
+    .cs-wrapper {
+      display: block; /* sidebar is fixed, main just needs full width */
+      min-height: 100vh;
+    }
+
+    /* ── LEFT SIDEBAR ── */
+    .cs-sidebar {
+      position: fixed;
+      top: var(--nav-h);
+      left: 0;
+      width: 220px;
+      height: calc(100vh - var(--nav-h));
+      overflow-y: auto;
+      border-right: 1px solid var(--sand);
+      padding: 36px 0 40px;
+      display: flex;
+      flex-direction: column;
+      background: var(--cream);
+      z-index: 20;
+    }
+
+    .cs-sidebar-back {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      color: var(--muted);
+      padding: 0 28px 24px;
+      border-bottom: 1px solid var(--sand);
+      margin-bottom: 24px;
+      transition: color 0.2s;
+    }
+    .cs-sidebar-back:hover { color: var(--accent); }
+
+    .cs-sidebar-title {
+      font-family: var(--font-display);
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--ink);
+      padding: 0 28px;
+      margin-bottom: 18px;
+      line-height: 1.35;
+    }
+
+    .cs-nav {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      padding: 0 16px;
+      gap: 2px;
+      flex: 1;
+    }
+    .cs-nav a {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--muted);
+      padding: 7px 12px;
+      border-left: 2px solid transparent;
+      border-radius: 0 2px 2px 0;
+      transition: all 0.18s;
+    }
+    .cs-nav a:hover { color: var(--ink); background: var(--warm-white); }
+    .cs-nav a.active {
+      color: var(--accent);
+      border-left-color: var(--accent);
+      background: var(--accent-pale);
+      font-weight: 500;
+    }
+
+    .cs-sidebar-footer {
+      padding: 24px 28px 0;
+      border-top: 1px solid var(--sand);
+      margin-top: 16px;
+    }
+    .cs-sidebar-footer a {
+      font-size: 0.73rem;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 8px;
+      transition: color 0.2s;
+    }
+    .cs-sidebar-footer a:hover { color: var(--accent); }
+
+    /* ── MAIN ── */
+    .cs-main {
+      margin-left: 220px;
+      width: calc(100% - 220px);
+    }
+
+    /* ── BANDED SECTIONS ── */
+    .cs-section {
+      width: 100%;
+      scroll-margin-top: var(--nav-h);
+      display: block;
+    }
+    .cs-section-inner {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 80px 60px;
+    }
+
+    .cs-section.bg-cream  { background: var(--cream); }
+    .cs-section.bg-warm   { background: var(--warm-white); }
+    .cs-section.bg-pale   { background: var(--accent-pale); }
+    .cs-section.bg-sand   { background: var(--sand); }
+    .cs-section.bg-dark   {
+      background: var(--ink);
+    }
+    .cs-section.bg-dark .cs-section-label { color: var(--accent-light); }
+    .cs-section.bg-dark h2 { color: #F5F0EC; }
+    .cs-section.bg-dark p  { color: #B8B0A8; }
+    .cs-section.bg-dark .outcome-stat { color: var(--accent-light); }
+    .cs-section.bg-dark .outcome-label { color: #8A827C; }
+    .cs-section.bg-dark .outcome-card { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1); }
+
+    /* ── HERO ── */
+    .cs-hero-section { background: var(--accent-pale); }
+    .cs-hero-section .cs-section-inner {
+      max-width: 100%;
+      padding: 72px 40px 72px;
+      box-sizing: border-box;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      justify-content: center; /* add this */
+      max-width: 1200px;       /* add this */
+      margin: 0 auto;          /* add this */
+    }
+
+    .cs-hero-right {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .cs-hero-right img {
+      width: 100%;
+      max-height: 420px;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    .cs-hero-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+
+    .cs-hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.6rem, 4.5vw, 4.8rem);
+      font-weight: 400;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+      max-width: 680px;
+    }
+    .cs-hero-title em { font-style: italic; color: var(--accent); }
+
+    .cs-hero-sub {
+      font-size: 1rem;
+      color: var(--ink-soft);
+      line-height: 1.72;
+      max-width: 520px;
+      margin-bottom: 48px;
+    }
+
+    .cs-meta-strip {
+      display: flex;
+      gap: 0;
+      border-top: 1px solid rgba(44,40,37,0.12);
+      flex-wrap: wrap;
+    }
+    .cs-meta-item {
+      padding: 18px 40px 18px 0;
+      margin-right: 40px;
+    }
+    .cs-meta-item:last-child { margin-right: 0; }
+    .cs-meta-label {
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .cs-meta-value {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    /* Cover — flush to bottom of hero band */
+    .cs-cover-wrap {
+      padding: 40px 80px 0;
+      overflow: hidden;
+      box-sizing: border-box;
+      width: 100%;
+    }
+    .cs-cover-wrap img {
+      width: 100%; display: block;
+      border-radius: 8px 8px 0 0;
+      box-shadow: 0 -6px 32px rgba(44,40,37,0.1);
+    }
+    .cs-cover-placeholder {
+      height: 320px;
+      background: linear-gradient(135deg, #E0CAC0 0%, #C4BAB0 100%);
+      border-radius: 8px 8px 0 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cs-cover-placeholder span {
+      font-family: var(--font-display);
+      font-size: 6rem; color: white; opacity: 0.28;
+    }
+
+    /* ── SECTION TYPOGRAPHY ── */
+    .cs-section-label {
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .cs-section h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 2.4vw, 2.2rem);
+      font-weight: 400;
+      line-height: 1.2;
+      margin-bottom: 22px;
+      color: var(--ink);
+    }
+    .cs-section p {
+      font-size: 0.93rem;
+      line-height: 1.85;
+      color: var(--ink-soft);
+      margin-bottom: 16px;
+    }
+    .cs-section p:last-child { margin-bottom: 0; }
+    .cs-section p strong { color: var(--ink); font-weight: 500; }
+
+    /* Quote */
+    .cs-quote {
+      margin: 32px 0;
+      padding: 24px 28px;
+      border-left: 3px solid var(--accent);
+      background: rgba(181,114,90,0.07);
+      border-radius: 0 6px 6px 0;
+    }
+    .cs-quote p {
+      font-family: var(--font-display);
+      font-size: 1.18rem;
+      font-style: italic;
+      line-height: 1.55;
+      color: var(--ink);
+      margin: 0;
+    }
+
+    /* ── NIUM SPECIFIC COMPONENTS ── */
+
+    /* Two-col problem cards */
+    .cs-two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 28px 0;
+    }
+    .cs-card {
+      background: var(--cream);
+      border: 1px solid var(--sand);
+      border-radius: 8px;
+      padding: 24px;
+    }
+    .cs-section.bg-warm .cs-card { background: var(--cream); }
+    .cs-section.bg-cream .cs-card { background: var(--warm-white); }
+    .cs-section.bg-pale .cs-card  { background: rgba(255,255,255,0.55); }
+    .cs-card-icon {
+      width: 34px; height: 34px;
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      margin-bottom: 14px;
+    }
+    .cs-card h4 {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .cs-card p { font-size: 0.82rem; margin: 0; }
+
+    /* Constraint block */
+    .cs-constraint {
+      background: var(--warm-white);
+      border: 1px solid var(--sand);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 6px 6px 0;
+      padding: 20px 24px;
+      margin: 28px 0;
+    }
+    .cs-section.bg-warm .cs-constraint { background: var(--cream); }
+    .cs-constraint .cs-section-label { margin-bottom: 6px; }
+    .cs-constraint p { font-size: 0.83rem; margin: 0; }
+
+    /* Verification states grid */
+    .cs-states {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 28px 0;
+    }
+    .cs-state-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 18px 20px;
+      background: var(--cream);
+      border: 1px solid var(--sand);
+      border-radius: 8px;
+    }
+    .cs-section.bg-warm .cs-state-card  { background: var(--cream); }
+    .cs-section.bg-pale .cs-state-card  { background: rgba(255,255,255,0.55); }
+    .cs-state-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 5px;
+    }
+    .cs-state-card h5 {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .cs-state-card p { font-size: 0.8rem; margin: 0; line-height: 1.5; }
+
+    /* Status indicators */
+    .cs-indicators { display: flex; flex-direction: column; gap: 12px; margin: 24px 0; }
+    .cs-indicator-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(196,186,176,0.3);
+    }
+    .cs-indicator-row:last-child { border-bottom: none; }
+    .cs-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      padding: 4px 10px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      min-width: 110px;
+      justify-content: center;
+    }
+    .cs-badge-green { background: #DCFCE7; color: #16A34A; }
+    .cs-badge-amber { background: #FEF3C7; color: #D97706; }
+    .cs-badge-red   { background: #FEE2E2; color: #DC2626; }
+    .cs-indicator-row p { font-size: 0.82rem; margin: 0; padding-top: 2px; }
+
+    /* Design decisions */
+    .cs-decisions { margin: 8px 0; }
+    .cs-decision {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 28px;
+      align-items: start;
+      padding: 24px 0;
+      border-top: 1px solid rgba(196,186,176,0.35);
+    }
+    .cs-decision:last-child { border-bottom: 1px solid rgba(196,186,176,0.35); }
+    .cs-decision-label {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--ink);
+      padding-top: 2px;
+      line-height: 1.4;
+    }
+    .cs-decision p { font-size: 0.83rem; margin: 0; line-height: 1.75; }
+
+    /* Metric placeholder */
+    .cs-metric-placeholder {
+      display: inline-block;
+      border: 1px dashed rgba(255,255,255,0.3);
+      border-radius: 6px;
+      padding: 14px 18px;
+      margin-top: 20px;
+      font-size: 0.8rem;
+      font-style: italic;
+      color: rgba(255,255,255,0.45);
+    }
+
+    /* Images */
+    .cs-image { margin: 32px 0; border-radius: 8px; overflow: hidden; }
+    .cs-image img { width: 100%; display: block; }
+    .cs-image figcaption {
+      padding: 9px 14px;
+      font-size: 0.7rem;
+      color: var(--muted);
+      background: var(--warm-white);
+      border: 1px solid var(--sand);
+      border-top: none;
+      border-radius: 0 0 8px 8px;
+    }
+    .cs-image-ph {
+      aspect-ratio: 16/8;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(196,186,176,0.3);
+    }
+    .cs-image-ph span {
+      font-family: var(--font-display);
+      font-size: 2.5rem; color: var(--stone); opacity: 0.5;
+    }
+
+    .cs-image-2col {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 32px 0;
+    }
+    .cs-image-2col .cs-image { margin: 0; }
+
+    /* Steps */
+    .cs-steps { margin: 24px 0; }
+    .cs-step {
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 18px;
+      padding: 22px 0;
+      border-bottom: 1px solid rgba(196,186,176,0.35);
+    }
+    .cs-step:first-child { border-top: 1px solid rgba(196,186,176,0.35); }
+    .cs-step-num {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: var(--accent);
+      opacity: 0.4;
+      line-height: 1;
+      padding-top: 2px;
+    }
+    .cs-step-title { font-size: 0.85rem; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+    .cs-step-desc  { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+    /* Outcomes */
+    .outcomes-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 28px 0;
+    }
+    .outcome-card {
+      padding: 24px 18px; border-radius: 8px; text-align: center;
+      border: 1px solid var(--sand); background: var(--cream);
+    }
+    .outcome-stat {
+      font-family: var(--font-display);
+      font-size: 2rem; font-weight: 400; color: var(--accent);
+      line-height: 1; margin-bottom: 8px;
+    }
+    .outcome-label { font-size: 0.72rem; color: var(--muted); line-height: 1.45; }
+
+    /* Next project */
+    .cs-next-section { background: var(--ink); }
+    .cs-next-section .cs-section-inner { padding: 72px 60px; max-width: 100%; }
+    .cs-next-label {
+      font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 12px;
+    }
+    .cs-next-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3vw, 3rem);
+      font-weight: 400; color: var(--ink);
+      margin-bottom: 28px; line-height: 1.15;
+    }
+    .cs-next-link {
+      display: inline-flex; align-items: center; gap: 10px;
+      color: var(--accent); font-size: 0.83rem; font-weight: 500;
+      transition: gap 0.2s;
+    }
+    .cs-next-link:hover { gap: 16px; }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .cs-sidebar { display: none; }
+      .cs-main { margin-left: 0; width: 100%; }
+      .cs-hero-section .cs-section-inner,
+      .cs-cover-wrap { padding-left: 24px; padding-right: 24px; }
+      .cs-section-inner { padding: 48px 20px; }
+      .cs-image-2col { grid-template-columns: 1fr; }
+      .outcomes-grid { grid-template-columns: 1fr 1fr; }
+      .cs-two-col { grid-template-columns: 1fr; }
+      .cs-states { grid-template-columns: 1fr; }
+      .cs-decision { grid-template-columns: 1fr; gap: 6px; }
+      .cs-indicator-row { flex-direction: column; gap: 8px; }
+      .cs-badge { min-width: unset; width: fit-content; }
+      .cs-next-section .cs-section-inner { padding: 48px 20px; }
+      /* Stack hero to single column, show video below */
+      .cs-hero-section .cs-section-inner {
+        grid-template-columns: 1fr;
+        padding: 48px 24px 40px;
+      }
+      .cs-hero-right {
+        display: flex;
+        justify-content: center;
+        align-self: auto;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .cs-meta-strip { flex-direction: column; }
+      .cs-meta-item { padding: 12px 0; border-bottom: 1px solid rgba(44,40,37,0.08); margin-right: 0; }
+      .outcomes-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="nav">
+    <a href="index.html" class="nav-logo">
+      <img src="logo.svg" alt="" class="nav-logo-img" />
+      Tracy.
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Work</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="mailto:tracygohyf@gmail.com" class="nav-cta">Say hello</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-content">
+  <div class="cs-wrapper">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="cs-sidebar">
+      <a href="index.html#works" class="cs-sidebar-back">← All work</a>
+      <div class="cs-sidebar-title">Verify —<br/>Business portal</div>
+      <ul class="cs-nav" id="cs-nav">
+        <li><a href="#overview"    class="active">Overview</a></li>
+        <li><a href="#problem"    >Problem</a></li>
+        <li><a href="#solution-1"    >Solution 1/2</a></li>
+        <li><a href="#solution-2"   >Solution 2/2</a></li>
+        <li><a href="#decisions"   >Design Decisions</a></li>
+        <li><a href="#outcome">Outcome</a></li>
+      </ul>
+    </aside>
+
+    <main class="cs-main">
+
+      <!-- ① HERO -->
+      <section class="cs-section cs-hero-section" id="overview">
+        <div class="cs-section-inner">
+        <!-- LEFT: existing content -->
+          <div>
+            <h1 class="cs-hero-title fade-up">
+            Catching bad data<br/><em>before</em> it causes<br/>a failed payment
+            </h1>
+            <p class="cs-hero-sub fade-up delay-1">
+            Integrating Nium Verify into a business payments portal, moving beneficiary validation from a post-payment problem to an upfront checkpoint.
+            </p>
+            <div class="cs-meta-strip fade-up delay-2">
+            <div class="cs-meta-item">
+              <div class="cs-meta-label">Role</div>
+              <div class="cs-meta-value">Product Designer</div>
+            </div>
+            <div class="cs-meta-item">
+              <div class="cs-meta-label">Platform</div>
+              <div class="cs-meta-value">Business Portal</div>
+            </div>
+            <div class="cs-meta-item">
+              <div class="cs-meta-label">Duration</div>
+              <div class="cs-meta-value">2 weeks</div>
+            </div>
+          </div>
+          </div> 
+          <!-- RIGHT: image -->
+          <div class="cs-hero-right">
+            <img src="images/verify.png" alt="Eye Capture App" />
+          </div>
+        </div>
+      </section>
+
+      <!-- ② PROBLEM — warm white -->
+      <section class="cs-section bg-warm" id="problem">
+        <div class="cs-section-inner">
+          <div class="cs-section-label">Problem</div>
+          <h2>Errors only showed up at the worst possible time</h2>
+          <p>Before this integration, the portal accepted beneficiary details without any upfront checks. Finance managers would complete the full approval workflow, queue a payment and then find out the transfer failed because an account number or name didn't match.</p>
+          <p>A failed payment isn't just a bounce. It means manual follow-up, re-confirming details with the beneficiary, re-submitting through approval chains, and delays to payroll or supplier payments. This small error could result in a big operational cost for the client.</p>
+
+          <div class="cs-two-col">
+            <div class="cs-card">
+              <div class="cs-card-icon" style="background:#FEF3C7;">⏱</div>
+              <h4>Late-stage discovery</h4>
+              <p>Validation only happened at transaction time, after approvals were complete and funds were queued to move.</p>
+            </div>
+            <div class="cs-card">
+              <div class="cs-card-icon" style="background:#EEF2FF;">👁</div>
+              <h4>No visibility in the contacts list</h4>
+              <p>Every saved beneficiary looked the same. There was no signal about whether details had ever been validated or were still current.</p>
+            </div>
+          </div>
+
+          <div class="cs-constraint">
+            <div class="cs-section-label">Design Constraint</div>
+            <p><strong>Nium Verify doesn't have universal coverage.</strong> Edge cases had to be considered. Eg. Some banks and corridors aren't supported. This meant validation couldn't be a hard gate. Blocking users on unsupported beneficiaries would have created friction for entirely legitimate contacts. The design had to work within this reality, not around it.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ③ SOLUTION PART 1 — cream -->
+      <section class="cs-section bg-cream" id="solution-1">
+        <div class="cs-section-inner">
+          <div class="cs-section-label">Solution 1/2</div>
+          <h2>Validate at the moment of creation, not payment</h2>
+          <p>I introduced the Nium Verify check inline within the add beneficiary flow. It runs as part of saving — no separate step, no extra friction for the common case. If there's an issue, users find out now, when it's easy to fix.</p>
+
+          <div class="cs-screenshot-slot">
+            <span class="slot-icon">🖼</span>
+            <p>Insert screenshot — Add Beneficiary flow with Nium Verify inline check</p>
+          </div>
+
+          <p>I designed across four states, each with its own language and next action:</p>
+
+          <div class="cs-states">
+            <div class="cs-state-card">
+              <div class="cs-state-dot" style="background:#16A34A;"></div>
+              <div>
+                <h5>Verified</h5>
+                <p>Details confirmed. User proceeds with confidence. Clear positive signal, no extra steps.</p>
+              </div>
+            </div>
+            <div class="cs-state-card">
+              <div class="cs-state-dot" style="background:#D97706;"></div>
+              <div>
+                <h5>Unsupported</h5>
+                <p>Bank or country not covered by Nium Verify. User can still save — with a clear caveat, not a blocker.</p>
+              </div>
+            </div>
+            <div class="cs-state-card">
+              <div class="cs-state-dot" style="background:#DC2626;"></div>
+              <div>
+                <h5>Failed / Mismatch</h5>
+                <p>Details didn't check out. Plain-language guidance on what to review before saving.</p>
+              </div>
+            </div>
+            <div class="cs-state-card">
+              <div class="cs-state-dot" style="background:#94A3B8;"></div>
+              <div>
+                <h5>System Error</h5>
+                <p>Nium Verify temporarily unavailable. Graceful degradation — user isn't blocked, but is clearly informed.</p>
+              </div>
+            </div>
+          </div>
+
+          <p>The decision not to hard-block on unsupported or unverified states was intentional. Informed progression over forced gates — users understand the risk and make an explicit choice to continue.</p>
+        </div>
+      </section>
+
+      <!-- ④ SOLUTION PART 2 — pale accent -->
+      <section class="cs-section bg-pale" id="solution-2">
+        <div class="cs-section-inner">
+          <div class="cs-section-label">Solution 2/2</div>
+          <h2>Surface the risk in the contacts list</h2>
+          <p>Validating at setup is only half the job. Users needed to see the status of every saved beneficiary at a glance — so they could spot problems before reaching the payment flow, not during.</p>
+          <p>I added a persistent status indicator to each contact in the list, kept to three states to avoid visual noise:</p>
+
+          <div class="cs-indicators">
+            <div class="cs-indicator-row">
+              <span class="cs-badge cs-badge-green">● Verified</span>
+              <p>Details confirmed by Nium Verify. No action needed.</p>
+            </div>
+            <div class="cs-indicator-row">
+              <span class="cs-badge cs-badge-amber">◐ Unverified</span>
+              <p>Verification wasn't completed — tooltip explains why (unsupported region, system error at time of saving).</p>
+            </div>
+            <div class="cs-indicator-row">
+              <span class="cs-badge cs-badge-red">⚠ Check details</span>
+              <p>Verification flagged an issue. Sending to this contact may delay or fail — review before transacting.</p>
+            </div>
+          </div>
+
+          <div class="cs-screenshot-slot">
+            <span class="slot-icon">🖼</span>
+            <p>Insert screenshot — Contacts list with status indicators</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ⑤ DESIGN DECISIONS — warm white -->
+      <section class="cs-section bg-warm" id="decisions">
+        <div class="cs-section-inner">
+          <div class="cs-section-label">Design Decisions</div>
+          <h2>Where the thinking happened</h2>
+
+          <div class="cs-decisions">
+            <div class="cs-decision">
+              <span class="cs-decision-label">Rewriting the error language</span>
+              <p>Early iterations used technical terms — "validation failed", "mismatched fields". Users needed to know what to do, not just what went wrong. I rewrote every failure state to be instructional: <em>"The account name doesn't match the bank's records — confirm the details with your beneficiary before saving."</em> The copy does the work that a tooltip or help article shouldn't have to.</p>
+            </div>
+            <div class="cs-decision">
+              <span class="cs-decision-label">Unsupported is not the same as invalid</span>
+              <p>This distinction mattered a lot. A beneficiary in a region Nium Verify doesn't cover yet is not a bad beneficiary. The design needed its own visual treatment and tone for this state — separate from the failure state — so users didn't distrust or delete legitimate contacts. Getting this wrong would have created real operational damage.</p>
+            </div>
+            <div class="cs-decision">
+              <span class="cs-decision-label">Three states, not five</span>
+              <p>The status system only works if users trust and act on it. I kept it to three states with concrete labels ("Verified", "Check details") rather than abstract confidence scores. Each state maps to a clear action. The fewer signals on a list view, the more each one means.</p>
+            </div>
+          </div>
+
+          <div class="cs-screenshot-slot">
+            <span class="slot-icon">🖼</span>
+            <p>Insert screenshot — Failure / unsupported state detail</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ⑥ OUTCOME — dark -->
+      <section class="cs-section bg-dark" id="outcome">
+        <div class="cs-section-inner">
+          <div class="cs-section-label">Outcome</div>
+          <h2>Validation moved upstream.<br/>Problems caught earlier.</h2>
+          <p>The integration shifted beneficiary validation from a reactive, post-payment problem to a proactive checkpoint built into the existing workflow. Users now have visibility into the health of their contacts before they ever reach the payment flow.</p>
+          <p>It's also a good example of designing around a third-party API's real-world limits rather than its ideal-state behaviour. The unsupported and graceful degradation states were as carefully considered as the primary verified flow — because that's where the edge cases that erode trust actually live.</p>
+          <div class="cs-metric-placeholder">
+            📊 Add metric from PM — e.g. "X% reduction in transaction errors attributable to invalid beneficiary details post-rollout"
+          </div>
+        </div>
+      </section>
+
+      <!-- ⑦ NEXT -->
+      <section class="cs-section bg-pale">
+        <div class="cs-section-inner">
+          <div class="cs-next-label">Next project</div>
+          <div class="cs-next-title" style="color:var(--ink);">Design system — <br/><em style="font-style:italic;color:var(--accent);">Revamp</em></div>
+          <a href="cs-design-system.html" class="cs-next-link" style="color:var(--accent);">View case study →</a>
+        </div>
+      </section>
+ 
+      <footer style="margin-top: 0" >
+    <span class="footer-name">Tracy.</span>
+    <ul class="footer-links">
+      <li><a href="https://www.linkedin.com/in/tracygyf/" target="_blank">LinkedIn</a></li>
+      <li><a href="mailto:tracygohyf@gmail.com">Email</a></li>
+    </ul>
+    <span class="footer-copy">© 2026 Tracy</span>
+  </footer>
+    </main>
+  </div>
+
+
+  <script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 20));
+
+    document.querySelectorAll('.fade-up').forEach(el => {
+      el.style.animationPlayState = 'running';
+    });
+
+    // Active sidebar highlight on scroll
+    const sections = document.querySelectorAll('.cs-section[id]');
+    const navLinks = document.querySelectorAll('#cs-nav a');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 140) current = s.id;
+      });
+      navLinks.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+      });
+    }, { passive: true });
+  </script>
+</body>
+</html>
