@@ -491,9 +491,9 @@ h1, h2, h3, h4, h5 {
   display: block;
   width: 100%;
   margin-top: 24px;
+  margin-bottom: 24px;
   border-radius: 8px;
   aspect-ratio: unset;
-  height: auto;
   object-fit: cover;
   background: rgba(255, 255, 255, 0);
   border: 0px solid var(--sand);

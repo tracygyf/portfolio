@@ -550,9 +550,7 @@
         <li><a href="#overview"    class="active">Overview</a></li>
         <li><a href="#problem"    >Problem</a></li>
         <li><a href="#process"    >Process</a></li>
-        <li><a href="#solution"   >Solution</a></li>
         <li><a href="#outcomes"   >Outcomes</a></li>
-        <li><a href="#reflections">Reflections</a></li>
       </ul>
     </aside>
 
@@ -592,11 +590,13 @@
       </section>
 
       <!-- ② CHALLENGE — warm white -->
-      <section class="cs-section bg-warm" id="challenge">
+      <section class="cs-section bg-warm" id="problem">
         <div class="cs-section-inner">
-          <div class="cs-section-label">01 — Challenge</div>
+          <div class="cs-section-label">Problem</div>
           <h2>An estimated date isn't the same as knowing</h2>
           <p>Previously, users received only an estimated delivery date and a single email notification on the day their card went out for delivery. No tracking, no real-time updates, no way to know where things stood.</p>
+          <img src="images/ct-process-01.png" alt="Existing Design" class="cs-process-img" 
+          style="width: 240px;margin-bottom: 24px;"/>
           <p>This lack of visibility led to avoidable anxiety, unnecessary support contacts, and a persistent "activate your card" prompt that meant nothing to users still waiting for it to arrive.</p>
 
           <div class="cs-two-col">
@@ -615,36 +615,30 @@
       </section>
 
       <!-- ③ EXPLORATION — cream -->
-      <section class="cs-section bg-cream" id="exploration">
+      <section class="cs-section bg-cream" id="process">
         <div class="cs-section-inner">
-          <div class="cs-section-label">02 — Exploration</div>
+          <div class="cs-section-label">Process</div>
           <h2>Finding the right level of detail</h2>
           <p>I mapped out the full card ordering process, then explored different ways to surface status to users. Two directions were tested:</p>
-
+          <img src="images/ct-process-02.png" alt="Steps" class="cs-process-img" />
           <div class="cs-two-col">
             <div class="cs-card">
-              <div class="cs-card-icon" style="background:#E8EDE8;">📋</div>
               <h4>Full tracker layout</h4>
               <p>Comprehensive tracking steps — but it occupied too much screen space and pushed important actions below the fold.</p>
+              <img src="images/ct-process-03.png" alt="Mock 1" class="cs-process-img" />
             </div>
             <div class="cs-card">
-              <div class="cs-card-icon" style="background:#EEF2FF;">💬</div>
               <h4>Message banner</h4>
               <p>A simplified banner showing the current step with a popup for full details — cleaner, but messaging needed refinement.</p>
+              <img src="images/ct-process-04.png" alt="Mock 2" class="cs-process-img" />
             </div>
           </div>
-
-          <div class="cs-screenshot-slot">
-            <span class="slot-icon">🖼</span>
-            <p>Insert image — exploration mockups and iteration screens</p>
-          </div>
-        </div>
       </section>
 
       <!-- ④ OUTCOME — dark -->
       <section class="cs-section bg-dark" id="outcome">
         <div class="cs-section-inner">
-          <div class="cs-section-label">03 — Outcome</div>
+          <div class="cs-section-label">Outcome</div>
           <h2>A minimalist banner. A meaningful difference.</h2>
           <p>The final design introduces a compact banner clearly showing the card's current status and estimated delivery date. Users who want the full breakdown can open a modal — without cluttering the card page for those who don't.</p>
           <p>The persistent "activate your card" prompt was removed entirely for users still awaiting delivery — eliminating a confusing, premature call to action.</p>
@@ -663,6 +657,7 @@
               <div class="outcome-label">Premature activation prompts shown to users still waiting</div>
             </div>
           </div>
+        <img src="images/ct-outcome-01.png" alt="Final Card Tracker Design" class="cs-process-img" />
         </div>
       </section>
 
