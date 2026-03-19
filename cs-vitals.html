@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="logo-head.png" />
   <style>
 
     /* ── LAYOUT ── */
@@ -455,7 +456,7 @@
       font-family: var(--font-display);
       font-size: 1.5rem;
       color: var(--accent);
-      opacity: 0.4;
+      opacity: 1;
       line-height: 1;
       padding-top: 2px;
     }
@@ -556,9 +557,8 @@
         <li><a href="#overview"    class="active">Overview</a></li>
         <li><a href="#problem"    >Problem</a></li>
         <li><a href="#process"    >Process</a></li>
-        <li><a href="#solution"   >Solution</a></li>
-        <li><a href="#outcomes"   >Outcomes</a></li>
-        <li><a href="#reflections">Reflections</a></li>
+        <li><a href="#outcome"   >Outcome</a></li>
+        <li><a href="#learnings">Learnings</a></li>
       </ul>
     </aside>
 
@@ -573,7 +573,7 @@
             Automating vitals so <em>caregivers</em> can focus on care
             </h1>
             <p class="cs-hero-sub fade-up delay-1">
-            A senior-friendly tablet and web application that replaced manual paper-based vital recording for healthcare providers — saving 1–2 hours of daily admin and enabling the elderly to self-record.
+            A senior-friendly tablet and web application that replaced manual paper-based vital recording for healthcare providers. It saves 1–2 hours of daily admin work and enables the elderly to self-record their own vitals.
             </p>
           <p class="cs-hero-sub fade-up delay-1"><strong>Confidential information and images have been redacted.</strong>
           </p>
@@ -600,17 +600,17 @@
       </section>
 
       <!-- ② CHALLENGE — warm white -->
-      <section class="cs-section bg-warm" id="challenge">
+      <section class="cs-section bg-warm" id="problem">
         <div class="cs-section-inner">
-          <div class="cs-section-label">01 — Challenge</div>
+          <div class="cs-section-label">Problem</div>
           <h2>A paper-based process in a time-critical environment</h2>
-          <p>Healthcare providers running exercise sessions for seniors near their homes followed a fully manual process: print attendance sheets, record pre-exercise blood pressure by hand, manage late arrivals, record post-exercise readings, then manually transfer everything into a digital system after the session.</p>
+          <p>Healthcare providers running regular exercise sessions for seniors near their homes followed a fully manual process: print attendance sheets, record pre-exercise blood pressure by hand, manage late arrivals, record post-exercise readings, then manually transfer everything into a digital system after the session.</p>
 
           <div class="cs-two-col">
             <div class="cs-card">
               <div class="cs-card-icon" style="background:#FEF3C7;">⏱</div>
               <h4>Time-consuming manual work</h4>
-              <p>Existing paper processes made it slow and error-prone to conduct duties — especially with late arrivals disrupting the flow.</p>
+              <p>Existing paper processes made it slow and error-prone to conduct duties, especially with late elderly arrivals disrupting the flow.</p>
             </div>
             <div class="cs-card">
               <div class="cs-card-icon" style="background:#F2E8E4;">👥</div>
@@ -624,51 +624,92 @@
       <!-- ③ PROCESS — cream -->
       <section class="cs-section bg-cream" id="process">
         <div class="cs-section-inner">
-          <div class="cs-section-label">02 — Process</div>
+          <div class="cs-section-label">Process</div>
           <h2>Empathise, define, design, evaluate</h2>
+          <div class="cs-process-step">
+            <div class="cs-process-step-header">
+              <span class="cs-process-step-num">01</span>
+              <h3 class="cs-process-step-title">Emphathise</h3>
+            </div>
+            <p>The team made site visits to observe healthcare providers in action so we could understand exactly how sessions ran, where friction appeared, and what workarounds staff had already developed.</p>
+            <p>The existing process goes like this:</p>
 
-          <div class="cs-steps">
+            <div class="cs-steps">
             <div class="cs-step">
-              <div class="cs-step-num">1</div>
+              <div class="cs-step-num">📋</div>
               <div>
-                <div class="cs-step-title">Empathise — site visits</div>
-                <div class="cs-step-desc">The team made site visits to observe healthcare providers in action — understanding exactly how sessions ran, where friction appeared, and what workarounds staff had already developed.</div>
+                <div class="cs-step-title">1. Before the exercise session</div>
+                <div class="cs-step-desc">The healthcare provider prints a copy of the attendance sheet with empty fields to record the elderly's blood pressure.</div>
               </div>
             </div>
             <div class="cs-step">
-              <div class="cs-step-num">2</div>
+              <div class="cs-step-num">🩸</div>
               <div>
-                <div class="cs-step-title">Define — personas and user journeys</div>
-                <div class="cs-step-desc">Primary persona (healthcare providers) and secondary persona (elderly patients) were created. We also interviewed elderly users directly to understand their relationship with technology and design for their specific needs.</div>
+                <div class="cs-step-title">2. Record pre-exercise blood pressure</div>
+                <div class="cs-step-desc">The elderly's pre-exercise blood pressure is taken and recorded onto the sheet of paper.</div>
               </div>
             </div>
             <div class="cs-step">
-              <div class="cs-step-num">3</div>
+              <div class="cs-step-num">💪🏼</div>
               <div>
-                <div class="cs-step-title">Design — lo-fi to hi-fi</div>
-                <div class="cs-step-desc">Progressed from low-fidelity wireframes through mid-fidelity to a high-fidelity prototype, with stakeholder reviews at every stage before advancing.</div>
+                <div class="cs-step-title">3. Exercise starts</div>
+                <div class="cs-step-desc">But not without some late-comers. In this case, the healthcare providers would have to rush to take the latecomer's blood pressure before continuing to help out with the exercise.</div>
               </div>
             </div>
             <div class="cs-step">
-              <div class="cs-step-num">4</div>
+              <div class="cs-step-num">🩸</div>
               <div>
-                <div class="cs-step-title">Evaluate — remote usability testing</div>
-                <div class="cs-step-desc">Conducted usability tests via video call during the pandemic. Users completed tasks in the prototype while the team observed. Results were generally positive, with refinements made across multiple iterations.</div>
+                <div class="cs-step-title">4. Record post-exercise blood pressure</div>
+                <div class="cs-step-desc">Once the exercise session ends, the healthcare provider records the post-exercise blood pressure of the elderly.</div>
+              </div>
+            </div>
+            <div class="cs-step">
+              <div class="cs-step-num">👩🏻‍💻</div>
+              <div>
+                <div class="cs-step-title">5. Data transfer post-session</div>
+                <div class="cs-step-desc">After the session, the healthcare provider transfers data from the sheet of paper into an online format for storage.</div>
               </div>
             </div>
           </div>
-
-          <div class="cs-screenshot-slot">
-            <span class="slot-icon">🖼</span>
-            <p>Insert image — wireframes and UX process diagram</p>
+          <p>The visits gave the team valuable insights as to how we could go about designing the solution to curb manual work and make the recording process much more efficient.</p>
           </div>
+
+          <div class="cs-process-step">
+            <div class="cs-process-step-header">
+              <span class="cs-process-step-num">02</span>
+              <h3 class="cs-process-step-title">Define</h3>
+            </div>
+            <p>Primary persona (healthcare providers) and secondary persona (elderly patients) were created. We also interviewed elderly users directly to understand their relationship with technology and design for their specific needs.</p>
+            <img src="images/vt-process-02.png" alt="Personas" class="cs-process-img" />
+          </div>
+
+          <div class="cs-process-step">
+            <div class="cs-process-step-header">
+              <span class="cs-process-step-num">03</span>
+              <h3 class="cs-process-step-title">Design</h3>
+            </div>
+            <p>I progressed starting from low-fidelity wireframes through mid-fidelity to a high-fidelity prototype, with stakeholder reviews at every stage before advancing.</p>
+            <img src="images/vt-process-03.png" alt="Design" class="cs-process-img" />
+            <p>Eventhough the secondary users were elderly, it was important to ensure that the design also worked for them. Most of the elderly spoke in dialect and were not as technologically savvy, so limitations in motor skills and languages were taken into consideration when designing.</p>
+            <p>On screens that the elderly interacted with, I ensured that icons and buttons were big enough for the elderly to make sense of and interact with. Similar to their blood pressure devices, I followed the layout of machine's UI to induce familiarity with the elderly.</p>
+            <img src="images/vt-process-04.png" alt="Blood Pressure Recording Screen" class="cs-process-img"/>
+        </div>
+
+          <div class="cs-process-step">
+            <div class="cs-process-step-header">
+              <span class="cs-process-step-num">04</span>
+              <h3 class="cs-process-step-title">Evaluate</h3>
+            </div>
+            <p>Usability tests were conducted via video call during the pandemic. Users completed tasks in the prototype while the team observed. Results were generally positive, with refinements made across multiple iterations.</p>
+          </div>
+
         </div>
       </section>
 
       <!-- ④ OUTCOME — dark -->
       <section class="cs-section bg-dark" id="outcome">
         <div class="cs-section-inner">
-          <div class="cs-section-label">03 — Outcome</div>
+          <div class="cs-section-label">Outcome</div>
           <h2>Less admin. More care.</h2>
           <p>A tablet app for healthcare providers to record and upload vitals in real time, paired with a web dashboard for visualising patient data through infographics and charts.</p>
 
@@ -679,11 +720,11 @@
             </div>
             <div class="outcome-card">
               <div class="outcome-stat">↑</div>
-              <div class="outcome-label">Elderly engagement — patients could self-record without assistance</div>
+              <div class="outcome-label">Elderly engagement. Patients could self-record without healthcare provider's assistance</div>
             </div>
             <div class="outcome-card">
               <div class="outcome-stat">↑</div>
-              <div class="outcome-label">Staff and patient ability to visualise and understand health data</div>
+              <div class="outcome-label">Staff and patient's ability to visualise and understand health data through the dashboard</div>
             </div>
           </div>
         </div>
@@ -692,10 +733,10 @@
       <!-- ⑤ LEARNINGS — cream -->
       <section class="cs-section bg-cream" id="learnings">
         <div class="cs-section-inner">
-          <div class="cs-section-label">04 — Learnings</div>
+          <div class="cs-section-label">Learnings</div>
           <h2>What I'd carry forward</h2>
-          <p><strong>Communication is foundational.</strong> Several iterations in this project stemmed directly from gaps between the design team and front/back-end developers. Regular syncs and shared context matter more than any single design decision.</p>
-          <p><strong>Embrace ambiguity.</strong> Working during the pandemic meant busy healthcare stakeholders, shifting constraints, and limited access to users. Learning to make grounded assumptions and validate them as early as possible — even imperfectly — was essential to delivering on time.</p>
+          <p><strong>Communication is foundational.</strong> Several iterations in this project stemmed directly from gaps between the design team and front/back-end developers. I learnt that regular syncs and shared context matter more than any single design decision.</p>
+          <p><strong>Embrace ambiguity.</strong> Working during the pandemic meant busy healthcare stakeholders, shifting constraints, and limited access to users. Learning to make grounded assumptions and validate them as early as possible, even imperfectly, was essential to delivering on time.</p>
         </div>
       </section>
 

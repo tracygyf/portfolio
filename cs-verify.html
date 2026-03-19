@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="logo-head.png" />
   <style>
 
     /* ── LAYOUT ── */
@@ -560,7 +561,7 @@
     <!-- LEFT SIDEBAR -->
     <aside class="cs-sidebar">
       <a href="index.html#works" class="cs-sidebar-back">← All work</a>
-      <div class="cs-sidebar-title">Verify —<br/>Business portal</div>
+      <div class="cs-sidebar-title">Instant Account Verification</div>
       <ul class="cs-nav" id="cs-nav">
         <li><a href="#overview"    class="active">Overview</a></li>
         <li><a href="#problem"    >Problem</a></li>
@@ -578,10 +579,10 @@
         <!-- LEFT: existing content -->
           <div>
             <h1 class="cs-hero-title fade-up">
-            Catching bad data <em>before</em> it causes a failed payment
+            Catching incorrect data <em>before</em> a failed transaction
             </h1>
             <p class="cs-hero-sub fade-up delay-1">
-            Integrating Nium Verify into a business payments portal so finance teams catch bad recipient data before it causes a failed payment.
+            Integrating Nium Verify (real-time bank account verification solution) into a business payments portal so finance teams catch incorrect recipient data before it causes a failed transaction.
             </p>
             <div class="cs-meta-strip fade-up delay-2">
             <div class="cs-meta-item">
@@ -617,8 +618,8 @@
           <div class="cs-two-col">
             <div class="cs-card">
               <div class="cs-card-icon" style="background:#FEF3C7;">⏱</div>
-              <h4>Late timings</h4>
-              <p>Errors only surfaced at payment time, after the full approval chain was done and funds were queued to move.</p>
+              <h4>Errors surfaced too late</h4>
+              <p>Clients ran into errors at payment time or after the full approval chain was done and funds were queued to move.</p>
             </div>
             <div class="cs-card">
               <div class="cs-card-icon" style="background:#EEF2FF;">👁</div>
@@ -640,7 +641,7 @@
               <span class="cs-process-step-num">01</span>
               <h3 class="cs-process-step-title">Mapping the problem</h3>
             </div>
-            <p>The first thing I mapped out was timing. Validation at the point of saving a recipient made the most sense. It's the moment when fixing a mistake costs nothing. Catching it at payment time, after approvals are done, is too late.</p>
+            <p>The first thing I mapped out was timing. Validation at the point of adding a recipient made the most sense. It's the moment when fixing a mistake costs nothing. Catching it at payment time, after approvals are done, is too late.</p>
             <p>I went through the existing flow of adding a recipient, identified every affected touchpoint, and scoped what the integration would actually touch.</p>
             <img src="images/vfy-process-01.png" alt="Flow mapping" class="cs-process-img" />
           </div>
@@ -661,7 +662,7 @@
               <span class="cs-process-step-num">03</span>
               <h3 class="cs-process-step-title">Reviews and iteration</h3>
             </div>
-            <p>Shared concepts with the PM and engineering across several rounds. Key feedback shaped the tone of the error copy and the treatment edge cases. Each round tightened the language and the logic behind each state.</p>
+            <p>I shared concepts with the product manager and engineering across several rounds. Their feedback helped shape the tone of the error copy and the treatment of edge cases. Each round tightened the language and the logic behind each state.</p>
           </div>
 
         </div>
@@ -830,22 +831,22 @@
       <section class="cs-section bg-warm" id="solution-1">
         <div class="cs-section-inner">
           <div class="cs-section-label">Solution</div>
-          <h2>Validate early. Surface the result everywhere it matters.</h2>
-          <p>The integration needed to do two things: catch bad data at the point of saving a recipient, and make sure that information stayed visible everywhere a user might act on it.</p>
+          <h2>Validate early. Surface the result everywhere it matters</h2>
+          <p>The integration needed to do 2 things: catch incorrect data at the point of adding or editing a recipient, and make sure that information stayed visible everywhere a user might act on it.</p>
           <img src="images/vfy-process-03.png" alt="Verification check screens" class="cs-process-img" />
           <div class="cs-divider"></div>
 
           <h3 class="cs-subsection-title">The thing that wasn't in the brief</h3>
-          <p>Partway through the project, something occurred to me. Once a user saves a recipient, they land back on the contacts list. But there's nothing there to tell them whether that contact was verified, skipped, or flagged. For any recipient added before this feature existed, there's no signal at all. Users were essentially flying blind every time they picked a contact to pay.</p>
-          <p>I brought it to the product manager with that reasoning and it got added to scope. The solution was a persistent status badge on each contact in the list.</p>
+          <p>Once a user saves a recipient, they land back on the contacts list. But there's nothing there to tell them whether that contact was verified, skipped, or flagged. For any recipient added before this feature existed, there's no signal at all. Users were essentially flying blind every time they picked a contact to pay.</p>
+          <p>I brought this issue up to the product manager and it got added to scope. The solution was a persistent status badge on each contact in the list.</p>
           <div class="cs-screenshot-slot">
             <img src="images/vfy-solution-01.png" alt="Statuses on contacts list" class="cs-process-img" />
            </div> 
-          <p>Most users will verify successfully and move on. But the feature only holds up if every outcome is handled clearly. Early drafts used technical language like "mismatched fields", "verification failed". That tells users what happened, not what to do. I rewrote every status to be clear to users: what to check and how to fix it.</p> 
+          <p>Most users will verify successfully and move on. But the feature only holds up if every outcome is handled clearly. Early drafts used technical language like "mismatched fields" or "verification failed". That tells users what happened, but not what to do. I rewrote every status to be clearer for users, detailing what to check and how to fix it.</p> 
           <div class="cs-screenshot-slot">
           <img src="images/vfy-solution-02.png" alt="5 statuses" class="cs-process-img" style="width: 500px;"/>
           </div>
-            <p>Furthermore, when a user selects any unverified recipient (or any existing recipient prior to the Verify integration) in the send money flow, we surface an inline warning. We don't want to block users from transacting, instead we just give users a clear heads-up that this recipient hasn't been verified and the transaction may be delayed or fail.</p>
+            <p>Furthermore, when a user selects any unverified recipient (or any existing recipient prior to the integration) in the send money flow, we surface an inline warning. </p><p>We don't want to block users from transacting, instead we give users a clear heads-up that this recipient hasn't been verified and the transaction may be delayed or fail.</p>
           <div class="cs-screenshot-slot">
             <img src="images/vfy-solution-03.png" alt="Warning message in Send money flow" class="cs-process-img" style="width: 500px;"/>
           </div>
@@ -857,7 +858,7 @@
         <div class="cs-section-inner">
           <div class="cs-section-label">Outcome</div>
           <h2>Shipped, live, and measurable.</h2>
-          <p>The feature is live. Validation now happens at the point of saving a recipient, not at the point of payment. Users have visibility into the health of their contacts list before they ever start a transaction.</p>
+          <p>The feature is live. Validation now happens at the point of adding or editing a recipient, not at the point of payment. Users have visibility into the health of their contacts list before they ever start a transaction.</p>
           <div class="outcomes-grid">
             <div class="outcome-card">
               <div class="outcome-stat">20%</div>
@@ -865,7 +866,7 @@
             </div>
             <div class="outcome-card">
               <div class="outcome-stat">Earlier</div>
-              <div class="outcome-label">errors caught at point of creation, before approvals and payment queues</div>
+              <div class="outcome-label">errors caught at point of contact creation, before approvals and payment</div>
             </div>
             <div class="outcome-card">
               <div class="outcome-stat">Lower</div>

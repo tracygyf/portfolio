@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="logo-head.png" />
   <style>
 
     /* ── LAYOUT ── */
@@ -453,9 +454,9 @@
     .cs-step:first-child { border-top: 1px solid rgba(196,186,176,0.35); }
     .cs-step-num {
       font-family: var(--font-display);
-      font-size: 1.5rem;
+      font-size: 2rem;
       color: var(--accent);
-      opacity: 0.4;
+      opacity:1;
       line-height: 1;
       padding-top: 2px;
     }
@@ -551,14 +552,14 @@
     <!-- LEFT SIDEBAR -->
     <aside class="cs-sidebar">
       <a href="index.html#works" class="cs-sidebar-back">← All work</a>
-      <div class="cs-sidebar-title">Virtual —<br/>Digital Innovation Lab</div>
+      <div class="cs-sidebar-title">Virtual Digital Innovation Lab</div>
       <ul class="cs-nav" id="cs-nav">
         <li><a href="#overview"    class="active">Overview</a></li>
         <li><a href="#problem"    >Problem</a></li>
         <li><a href="#process"    >Process</a></li>
         <li><a href="#solution"   >Solution</a></li>
-        <li><a href="#outcomes"   >Outcomes</a></li>
-        <li><a href="#reflections">Reflections</a></li>
+        <li><a href="#outcome"   >Outcome</a></li>
+        <li><a href="#learnings">Learnings</a></li>
       </ul>
     </aside>
 
@@ -573,7 +574,7 @@
             Bringing the lab to customers, <em>virtually</em>
             </h1>
             <p class="cs-hero-sub fade-up delay-1">
-            A virtual platform that replicated the physical Digital Innovation Lab experience for remote stakeholders — built during the pandemic using Unity, 3D modelling, and UX design.
+            A virtual platform that replicated the physical Digital Innovation Lab experience for remote stakeholders. It was built during the pandemic using Unity, 3D modelling, and UX design.
             </p>
             <div class="cs-meta-strip fade-up delay-2">
             <div class="cs-meta-item">
@@ -598,21 +599,21 @@
       </section>
 
       <!-- ② PROBLEM — warm white -->
-      <section class="cs-section bg-warm" id="role">
+      <section class="cs-section bg-warm" id="problem">
         <div class="cs-section-inner">
-          <div class="cs-section-label">01 — Problem</div>
+          <div class="cs-section-label">Problem</div>
           <h2>Physical visits stopped. Relationships couldn't.</h2>
-          <p>At the start of 2020, pandemic restrictions eliminated the team's ability to host physical visits to the Digital Innovation Lab — a key touchpoint for engaging C-level executives, business leads, and technical experts. The question became: how do you replicate an immersive, demo-driven physical experience in a fully remote environment?</p>
+          <p>At the start of 2020, pandemic restrictions eliminated the team's ability to host physical visits to the Digital Innovation Lab (DIL). The DIL was a key touchpoint for engaging C-level executives, business leads, and technical experts to view our offerings and solutions.</p>
 
           <div class="cs-quote">
             <p>"How might we continue to engage stakeholders to our labs, while tackling the challenges of remote working?"</p>
           </div>
 
-          <p>I took on three distinct roles across this project — UX Designer, 3D Artist, and Unity Developer — each requiring a different skillset picked up under time pressure.</p>
+          <p>I took on three distinct roles across this project: UX Designer, 3D Artist, and Unity Developer. Each role required a different skillset picked up under time pressure.</p>
 
           <div class="cs-two-col">
             <div class="cs-card">
-              <div class="cs-card-icon" style="background:#EEF2FF;">🎨</div>
+              <div class="cs-card-icon" style="background:#F2E8E4;">🎨</div>
               <h4>UX Designer</h4>
               <p>Researching target audience needs, designing the platform interface, and crafting personalised experiences for three distinct customer personas.</p>
             </div>
@@ -626,45 +627,50 @@
       </section>
 
       <!-- ③ PROCESS — cream -->
-      <section class="cs-section bg-cream" id="process">
+        <section class="cs-section bg-cream" id="process">
         <div class="cs-section-inner">
-          <div class="cs-section-label">02 — Process</div>
-          <h2>Research, design, build, test — in 10 weeks</h2>
-
-          <div class="cs-steps">
-            <div class="cs-step">
-              <div class="cs-step-num">1</div>
-              <div>
-                <div class="cs-step-title">Competitive analysis & research</div>
-                <div class="cs-step-desc">Reviewed how other companies used virtual spaces, then interviewed internal colleagues who hosted physical visits to understand the audience — C-level executives, business experts, and technical leads — and what they came to see.</div>
-              </div>
+          <div class="cs-section-label">Process</div>
+          <h2>Research, design, build, test. All in 10 weeks</h2>
+          <div class="cs-process-step">
+            <div class="cs-process-step-header">
+              <span class="cs-process-step-num">01</span>
+              <h3 class="cs-process-step-title">Competitive analysis & research</h3>
             </div>
-            <div class="cs-step">
-              <div class="cs-step-num">2</div>
-              <div>
-                <div class="cs-step-title">Three personas, one platform</div>
-                <div class="cs-step-desc">Crafted personas for each audience type with distinct motivations and interaction levels. A future-state journey map helped the team visualise how the virtual visit would unfold before, during, and after.</div>
-              </div>
-            </div>
-            <div class="cs-step">
-              <div class="cs-step-num">3</div>
-              <div>
-                <div class="cs-step-title">Design, model, integrate</div>
-                <div class="cs-step-desc">Designed the UI, modelled 3D lab assets and the chatbot mascot in 3DSMax, then integrated everything in Unity — including interactable objects, animations, and the chatbot function.</div>
-              </div>
-            </div>
-            <div class="cs-step">
-              <div class="cs-step-num">4</div>
-              <div>
-                <div class="cs-step-title">Test with real customers</div>
-                <div class="cs-step-desc">Hosted virtual visits with actual customers to gather feedback. Each session refined the experience — improving navigation, demo accessibility, and the overall sense of presence.</div>
-              </div>
-            </div>
+            <p>The team reviewed how other companies used or developed virtual spaces and interviewed internal colleagues who pregularly hosted physical visits to understand our audience (C-level executives, business experts, and technical leads) and what they came to see.</p>
+            <p>We then went on to craft our 3 personas and noted down their motivations, and the pain-points that they experienced during the visits. In our user journeys, we also indicated the engagement levels and amount of interaction (verbal exchange, testing out new demos) the personas had throughout their entire visit. This was extremely useful in helping us develop a solution that could cater a personalised experience to each persona.</p>
           </div>
 
-          <div class="cs-screenshot-slot">
-            <span class="slot-icon">🖼</span>
-            <p>Insert image — virtual lab screenshots and 3D environment</p>
+
+          <div class="cs-process-step">
+            <div class="cs-process-step-header">
+              <span class="cs-process-step-num">02</span>
+              <h3 class="cs-process-step-title">Setting the theme</h3>
+            </div>
+            <p>With our idea being a virtual platform, we wanted to encompass both the interactivity that customers might experience from the virtual and physical perspective and took that into consideration when building our solution. A future state journey map was created to help the team visualise how our ideas would come into play before, during and after each customer visit.</p>
+            <p>Before designing, we also took into consideration the theme of our virtual platform and mascot design. After some brainstorming, we decided to go with a theme that encompassed our teams identity and the corporate brand colours of the company.</p> 
+            <img src="images/vdil-process-01.png" alt="Theme" class="cs-process-img" />
+          </div>
+
+          <div class="cs-process-step">
+            <div class="cs-process-step-header">
+              <span class="cs-process-step-num">03</span>
+              <h3 class="cs-process-step-title">Design, model, integrate</h3>
+            </div>
+            <p>I designed the UI in Unity, modelled 3D lab assets (like tables, chairs, cushions) and the chatbot mascot (a.k.a Cloudy) in 3DSMax. The team then integrated everything into Unity. This included interactable objects, animations, and the chatbot function.</p>
+            <p>Check out the various expressions of our DIL mascot Cloudy! These expressions are triggered by specific words that Cloudy hears. </br><b>Cloudy is shy! It flushes when you compliment it!</b></p>
+            <div style="max-width: 720px; margin: 0 auto; background: rgba(255, 255, 255, 0); border-radius: 16px; padding: 0px;">
+              <video autoplay muted loop playsinline style="width: 100%; display: block; border-radius: 8px;">
+              <source src="videos/cloudy.mp4" type="video/mp4" />
+              </video>
+            </div>
+        </div>
+
+          <div class="cs-process-step">
+            <div class="cs-process-step-header">
+              <span class="cs-process-step-num">04</span>
+              <h3 class="cs-process-step-title">Test</h3>
+            </div>
+            <p>With our newly developed virtual lab, we were excited to test it out with our customers by hosting virtual visits. Through their feedback, we were able to refine and optimise our solution each time to better cater to their experience.</p>
           </div>
         </div>
       </section>
@@ -672,9 +678,9 @@
       <!-- ④ OUTCOME — dark -->
       <section class="cs-section bg-dark" id="outcome">
         <div class="cs-section-inner">
-          <div class="cs-section-label">03 — Outcome</div>
+          <div class="cs-section-label">Outcome</div>
           <h2>A new channel that outlived the pandemic</h2>
-          <p>Customers described the experience as an eye-opener — genuinely different from a video call or slide deck. The virtual lab maintained engagement and footfall through the pandemic, and inspired other parts of the company to create similar virtual labs across Asia.</p>
+          <p>Customers described the experience as an eye-opener as it was genuinely different from a video call or slide deck. The virtual lab maintained engagement and footfall through the pandemic, and inspired other parts of the company to create similar virtual labs across Asia.</p>
 
           <div class="outcomes-grid">
             <div class="outcome-card">
@@ -687,7 +693,7 @@
             </div>
             <div class="outcome-card">
               <div class="outcome-stat">New biz</div>
-              <div class="outcome-label">Customers engaged us to build their own virtual spaces as a result</div>
+              <div class="outcome-label">Inspired customers to engage us to create their virtual spaces as a result</div>
             </div>
           </div>
         </div>
@@ -696,10 +702,10 @@
       <!-- ⑤ LEARNINGS — cream -->
       <section class="cs-section bg-cream" id="learnings">
         <div class="cs-section-inner">
-          <div class="cs-section-label">04 — Learnings</div>
+          <div class="cs-section-label">Learnings</div>
           <h2>Creative blocks and learning curves</h2>
-          <p><strong>Creative block is solvable.</strong> The team struggled early on with finding a theme that felt genuinely ours. A structured brainstorming session — not just open discussion — unlocked the direction. Having a process for creativity matters as much as the creativity itself.</p>
-          <p><strong>Embrace the challenge.</strong> Taking on 3D modelling and Unity development with minimal prior experience was uncomfortable at first. But learning by doing — with a real deadline and real stakes — is the fastest path. What felt slow at the start became fluency by the end.</p>
+          <p><strong>Creative block is solvable.</strong> The team struggled early on with finding a theme that felt genuinely ours, and a structured brainstorming session unlocked the direction. I learnt that having a process for creativity matters as much as the creativity itself.</p>
+          <p><strong>Embrace the challenge.</strong> Taking on 3D modelling and Unity development with minimal prior experience was uncomfortable at first. But as someone who was extremely adapatable, I learnt by doing. Accompanied with a real deadline and real stakes, that further pushed me even more. This challenge tested my resillience, and I was satisfied with the end result.</p>
         </div>
       </section>
 

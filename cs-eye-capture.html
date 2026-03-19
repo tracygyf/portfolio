@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="logo-head.png" />
   <style>
 
     /* ── LAYOUT ── */
@@ -556,9 +557,8 @@
         <li><a href="#overview"    class="active">Overview</a></li>
         <li><a href="#problem"    >Problem</a></li>
         <li><a href="#process"    >Process</a></li>
-        <li><a href="#solution"   >Solution</a></li>
-        <li><a href="#outcomes"   >Outcomes</a></li>
-        <li><a href="#reflections">Reflections</a></li>
+        <li><a href="#outcome"   >Outcome</a></li>
+        <li><a href="#learnings">Learnings</a></li>
       </ul>
     </aside>
 
@@ -573,7 +573,7 @@
             An eye screening you can do <em>at home</em>
             </h1>
             <p class="cs-hero-sub fade-up delay-1">
-            A mobile app paired with a portable eye screening device — guiding patients through capturing a clinically acceptable eye image themselves, without a visit to the clinic.
+            A mobile app paired with a portable eye screening device that guides patients through capturing a clinically acceptable eye image themselves, without a visit to the clinic.
             </p>
           <p class="cs-hero-sub fade-up delay-1"><strong>Confidential information and images have been redacted.</strong>
           </p>
@@ -600,65 +600,73 @@
       </section>
 
       <!-- ② CHALLENGE — warm white -->
-      <section class="cs-section bg-warm" id="challenge">
+      <section class="cs-section bg-warm" id="problem">
         <div class="cs-section-inner">
-          <div class="cs-section-label">01 — Challenge</div>
+          <div class="cs-section-label">Problem</div>
           <h2>Bridging the gap between device and user</h2>
-          <p>Tertiary ophthalmology services were being overburdened by non-urgent cases — partly because triaging at the primary care level was inconsistent. The client had developed a portable eye screening device to address this, but the challenge was helping users — most of whom were caretakers, not clinicians — use it correctly without professional guidance.</p>
-
-          <div class="cs-constraint">
-            <div class="cs-section-label">Key Insight</div>
-            <p>More than half of interviewees reported their elderly patients did not own smartphones or were not tech-savvy — meaning caretakers, not patients, were the primary users of the app. The design had to be optimised for a proxy user managing another person's care.</p>
-          </div>
-
-          <div class="cs-two-col">
-            <div class="cs-card">
-              <div class="cs-card-icon" style="background:#EEF2FF;">📱</div>
-              <h4>Caretakers as primary users</h4>
-              <p>The app needed to be clear enough for non-technical users to confidently install the device attachment and capture an acceptable image.</p>
-            </div>
-            <div class="cs-card">
-              <div class="cs-card-icon" style="background:#F2E8E4;">🎯</div>
-              <h4>Clinically acceptable output</h4>
-              <p>The image had to meet clinical quality standards — the app needed to guide users toward this without requiring specialist knowledge.</p>
-            </div>
-          </div>
+          <p>Tertiary ophthalmology services were being overburdened by non-urgent cases as triaging at the primary care level was inconsistent. The client had developed a portable eye screening device to address this, but the challenge was helping users (most of whom were caretakers, not clinicians) to use it correctly without professional guidance.</p>
+          <p>The portable eye screening device works like this:</p>
+          <img src="images/ec-problem-01.png" alt="Eye Capture Tool" class="cs-process-img" />
         </div>
       </section>
 
       <!-- ③ PROCESS — cream -->
       <section class="cs-section bg-cream" id="process">
         <div class="cs-section-inner">
-          <div class="cs-section-label">02 — Process</div>
+          <div class="cs-section-label">Process</div>
           <h2>Research-led, stakeholder-tested</h2>
-
-          <div class="cs-steps">
-            <div class="cs-step">
-              <div class="cs-step-num">1</div>
-              <div>
-                <div class="cs-step-title">Empathise — interviews</div>
-                <div class="cs-step-desc">Conducted 3 online interviews with caretakers to understand their pain-points and relationship with new technology. Identified the proxy-user dynamic early — critical to shaping the entire UX approach.</div>
-              </div>
+          <div class="cs-process-step">
+            <div class="cs-process-step-header">
+              <span class="cs-process-step-num">01</span>
+              <h3 class="cs-process-step-title">Emphathise</h3>
             </div>
-            <div class="cs-step">
-              <div class="cs-step-num">2</div>
-              <div>
-                <div class="cs-step-title">Define — personas and opportunities</div>
-                <div class="cs-step-desc">Crafted a primary caretaker persona and user journey. Identified three design opportunities: simplify the UX, provide appropriate in-app guidance, and establish a low learning curve for image capture.</div>
-              </div>
+            <p>In order to figure out how to simplify the overall user experience for our users, we conducted 3 online interviews with caretakers to understand how it was like working with their patients.</p>
+            <div class="cs-constraint">
+            <div class="cs-section-label">Key Insight</div>
+            <p>The interviewees reported that their patients were mostly elderly who did not own smartphones or were not tech-savvy. <b>This meant that caretakers, not patients, would likely be the primary users of the app. </b> The design had to be optimised for a proxy user managing another person's care.</p>
+          </div>
+          <p>2 key takeaways:</p>
+            <div class="cs-two-col">
+            <div class="cs-card">
+              <div class="cs-card-icon" style="background:#F2E8E4;">📱</div>
+              <h4>Caretakers as primary users</h4>
+              <p>The app needed to be clear enough for non-technical users to confidently install the device attachment and capture an acceptable image.</p>
             </div>
-            <div class="cs-step">
-              <div class="cs-step-num">3</div>
-              <div>
-                <div class="cs-step-title">Design — lo-fi to hi-fi with early feedback</div>
-                <div class="cs-step-desc">Started with low-fidelity wireframes shared with stakeholders immediately — getting early signal before investing in high-fidelity work. This minimised rework in subsequent sprints significantly.</div>
-              </div>
+            <div class="cs-card">
+              <div class="cs-card-icon" style="background:#F2E8E4;">🎯</div>
+              <h4>Clinically acceptable output</h4>
+              <p>The image had to meet clinical quality standards. Therefore, the app needed to guide users toward this without requiring specialist knowledge.</p>
             </div>
           </div>
 
-          <div class="cs-screenshot-slot">
-            <span class="slot-icon">🖼</span>
-            <p>Insert image — wireframes and onboarding flow screens</p>
+
+          <div class="cs-process-step">
+            <div class="cs-process-step-header">
+              <span class="cs-process-step-num">02</span>
+              <h3 class="cs-process-step-title">Define</h3>
+            </div>
+            <p>The primary caretaker persona and user journeys were crafted.</p>
+            <img src="images/ec-process-01.png" alt="Personas and User Journey" class="cs-process-img" />
+            <p>The team also identified 3 design opportunities:</p> 
+            <p>1️⃣ Simplify the UX </br> 2️⃣ Provide appropriate in-app guidance </br> 3️⃣ Establish a low learning curve for image capture.</p>
+          </div>
+
+          <div class="cs-process-step">
+            <div class="cs-process-step-header">
+              <span class="cs-process-step-num">03</span>
+              <h3 class="cs-process-step-title">Design</h3>
+            </div>
+            <p>I started with low-fidelity wireframes and them shared with stakeholders immediately. Getting an early signal before investing in high-fidelity work helped the team minimise rework in subsequent sprints significantly.</p>
+            <img src="images/ec-process-02.png" alt="Wireframes" class="cs-process-img" />
+        </div>
+
+          <div class="cs-process-step">
+            <div class="cs-process-step-header">
+              <span class="cs-process-step-num">04</span>
+              <h3 class="cs-process-step-title">Test and Evaluate</h3>
+            </div>
+            <p>We observed how our target users interacted with the prototype in real time. The insights gathered enabled us to arrive onto our final MVP.</p>
+          <img src="images/ec-process-03.png" alt="Wireframes" class="cs-process-img" />
           </div>
         </div>
       </section>
@@ -666,22 +674,22 @@
       <!-- ④ OUTCOME — dark -->
       <section class="cs-section bg-dark" id="outcome">
         <div class="cs-section-inner">
-          <div class="cs-section-label">03 — Outcome</div>
+          <div class="cs-section-label">Outcome</div>
           <h2>50% more successful captures. Phase 2 secured.</h2>
-          <p>With clear onboarding screens and real-time screen-overlay instructions, participants achieved a 50% increase in successful eye image capture during beta testing. Users expressed strong interest in the solution, and the client chose to continue engagement for phase 2.</p>
+          <p>With clear onboarding screens and real-time screen-overlay instructions, participants achieved a 50% increase in successful eye image capture and a 33% decrease in photo-capture attempts during beta testing. Users expressed strong interest in the solution, and the client chose to continue engagement for phase 2.</p>
 
           <div class="outcomes-grid">
             <div class="outcome-card">
               <div class="outcome-stat">↑ 50%</div>
-              <div class="outcome-label">Increase in successful eye image capture rate in beta testing</div>
+              <div class="outcome-label">success rate in capturing acceptable photos of eyes</div>
             </div>
             <div class="outcome-card">
-              <div class="outcome-stat">✓</div>
-              <div class="outcome-label">Beta release approved by client's ophthalmology team</div>
+              <div class="outcome-stat">↓ 33%</div>
+              <div class="outcome-label">reduction in attempts needed to capture photos</div>
             </div>
             <div class="outcome-card">
-              <div class="outcome-stat">Phase 2</div>
-              <div class="outcome-label">Client extended engagement for continued development</div>
+              <div class="outcome-stat">Positive</div>
+              <div class="outcome-label">user feedback and interest by clinicians and users</div>
             </div>
           </div>
         </div>
@@ -690,10 +698,10 @@
       <!-- ⑤ LEARNINGS — cream -->
       <section class="cs-section bg-cream" id="learnings">
         <div class="cs-section-inner">
-          <div class="cs-section-label">04 — Learnings</div>
+          <div class="cs-section-label">Learnings</div>
           <h2>The handoff is part of the design</h2>
-          <p>Working with developers based at another location — with a language barrier — made me truly understand why design systems and interface guidelines exist. Without them, the gap between what's designed and what's built can become significant even with good intent on both sides.</p>
-          <p>Clear specs, annotated edge cases, and shared visual references aren't overhead — they're the communication layer that makes remote collaboration possible.</p>
+          <p>Working with developers based at another location (with a language barrier) made me truly understand why design systems and interface guidelines exist. Without them, the gap between what's designed and what's built can become significant even with good intent on both sides.</p>
+          <p>Clear specs, annotated edge cases, and shared visual references act as good communication layers that makes remote collaboration possible.</p>
         </div>
       </section>
 
