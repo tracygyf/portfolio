@@ -532,7 +532,7 @@
 
     .cs-process-step-num {
       font-family: var(--font-display);
-      font-size: 1.1rem;
+      font-size: 2rem;
       color: var(--accent);
       opacity: 1;
       margin-right: 10px;
@@ -544,13 +544,13 @@
 
   <nav id="nav">
     <a href="index.html" class="nav-logo">
-      <img src="logo.svg" alt="" class="nav-logo-img" />
+      <img src="logo.png" alt="" class="nav-logo-img" />
       Tracy.
     </a>
     <ul class="nav-links">
       <li><a href="index.html" class="active">Work</a></li>
       <li><a href="about.html">About</a></li>
-      <li><a href="/cdn-cgi/l/email-protection#8ffbfdeeecf6e8e0e7f6e9cfe8e2eee6e3a1ece0e2" class="nav-cta">Say hello</a></li>
+      <li><a href="mailto:tracygohyf@gmail.com" class="nav-cta">Say hello</a></li>
     </ul>
   </nav>
 
@@ -565,9 +565,7 @@
         <li><a href="#overview"    class="active">Overview</a></li>
         <li><a href="#problem"    >Problem</a></li>
         <li><a href="#process"    >Process</a></li>
-        <li><a href="#solution-1"    >Solution 1/2</a></li>
-        <li><a href="#solution-2"   >Solution 2/2</a></li>
-        <li><a href="#decisions"   >Design Decisions</a></li>
+        <li><a href="#solution-1"    >Solution</a></li>
         <li><a href="#outcome">Outcome</a></li>
       </ul>
     </aside>
@@ -583,7 +581,7 @@
             Catching bad data <em>before</em> it causes a failed payment
             </h1>
             <p class="cs-hero-sub fade-up delay-1">
-            Integrating Nium Verify into a business payments portal, moving beneficiary validation from a post-payment problem to an upfront checkpoint.
+            Integrating Nium Verify into a business payments portal so finance teams catch bad recipient data before it causes a failed payment.
             </p>
             <div class="cs-meta-strip fade-up delay-2">
             <div class="cs-meta-item">
@@ -602,193 +600,268 @@
           </div> 
           <!-- RIGHT: image -->
           <div class="cs-hero-right">
-            <img src="images/verify.png" alt="Eye Capture App" />
+            <img src="images/verify.png" alt="Verify - Business Portal" />
           </div>
         </div>
       </section>
 
-      <!-- ② PROBLEM — cream -->
-      <section class="cs-section bg-cream" id="problem">
+      <!-- ② PROBLEM — warm white -->
+      <section class="cs-section bg-warm" id="problem">
         <div class="cs-section-inner">
           <div class="cs-section-label">Problem</div>
-          <h2>Errors only showed up at the worst possible time</h2>
-          <p>Before this integration, the portal accepted beneficiary details without any upfront checks. Finance managers would complete the full approval workflow, queue a payment and then find out the transfer failed because an account number or name didn't match.</p>
-          <p>A failed payment isn't just a bounce. It means manual follow-up, re-confirming details with the beneficiary, re-submitting through approval chains, and delays to payroll or supplier payments. This small error could result in a big operational cost for the client.</p>
+          <h2>Transaction failures and delays</h2>
+          <p>Failed transactions can create a chain reaction of manual follow-up, re-submission through approval workflows, and delayed payroll or supplier payments for clients using our portal.</p>
+          <p>The data showed a clear pattern: a good chunk of failed transactions traced back to recipients saved with incorrect details.</p>
+          <p>Our product already runs on the Nium platform, so using Nium Verify to validate recipient details upfront was the logical next step. The brief was simple: integrate it. What that actually meant in practice was left for me to figure out.</p>
 
           <div class="cs-two-col">
             <div class="cs-card">
               <div class="cs-card-icon" style="background:#FEF3C7;">⏱</div>
-              <h4>Late-stage discovery</h4>
-              <p>Validation only happened at transaction time, after approvals were complete and funds were queued to move.</p>
+              <h4>Late timings</h4>
+              <p>Errors only surfaced at payment time, after the full approval chain was done and funds were queued to move.</p>
             </div>
             <div class="cs-card">
               <div class="cs-card-icon" style="background:#EEF2FF;">👁</div>
-              <h4>No visibility in the contacts list</h4>
-              <p>Every saved beneficiary looked the same. There was no signal about whether details had ever been validated or were still current.</p>
+              <h4>No signal in the contacts list</h4>
+              <p>Every saved recipient looked identical. There was no way to tell who was verified and who wasn't.</p>
             </div>
-          </div>
-
-          <div class="cs-constraint">
-            <div class="cs-section-label">Design Constraint</div>
-            <p><strong>Nium Verify doesn't have universal coverage.</strong> Edge cases had to be considered. Eg. Some banks and corridors aren't supported. This meant validation couldn't be a hard gate. Blocking users on unsupported beneficiaries would have created friction for entirely legitimate contacts. The design had to work within this reality, not around it.</p>
           </div>
         </div>
       </section>
 
-      <!-- ③ PROCESS — warm white -->
-      <section class="cs-section bg-warm" id="process">
+      <!-- ③ PROCESS — cream -->
+      <section class="cs-section bg-cream" id="process">
         <div class="cs-section-inner">
           <div class="cs-section-label">Process</div>
-          <h2>How the design came together</h2>
+          <h2>Working out the approach</h2>
 
           <div class="cs-process-step">
             <div class="cs-process-step-header">
               <span class="cs-process-step-num">01</span>
-              <h3 class="cs-process-step-title">Discovery &amp; problem framing</h3>
+              <h3 class="cs-process-step-title">Mapping the problem</h3>
             </div>
-            <p>Started by mapping where in the payment lifecycle errors were actually occurring. Reviewed how the existing add-beneficiary flow worked end-to-end and identified the gap: details were accepted at face value with no upfront checks. Errors only surfaced at transaction time, after full approval chains had been completed.</p>
-            <img src="images/process-01.png" alt="Discovery — flow mapping and problem framing" class="cs-process-img" />
+            <p>The first thing I mapped out was timing. Validation at the point of saving a recipient made the most sense. It's the moment when fixing a mistake costs nothing. Catching it at payment time, after approvals are done, is too late.</p>
+            <p>I went through the existing flow of adding a recipient, identified every affected touchpoint, and scoped what the integration would actually touch.</p>
+            <img src="images/vfy-process-01.png" alt="Flow mapping" class="cs-process-img" />
           </div>
 
           <div class="cs-process-step">
             <div class="cs-process-step-header">
               <span class="cs-process-step-num">02</span>
-              <h3 class="cs-process-step-title">Wireframing &amp; exploring edge cases</h3>
+              <h3 class="cs-process-step-title">Designing and hitting a constraint</h3>
             </div>
-            <p>Explored inline versus modal-based approaches to surfacing the Nium Verify check. Early wireframes tested a modal-first pattern but it added unnecessary friction to a flow most users complete without issues. Settled on inline result states within the existing save flow, with each edge case treated as its own design problem.</p>
-            <img src="images/process-02.png" alt="Wireframing — early explorations and edge case states" class="cs-process-img" />
+            <p>My first draft kept the verification result inline on the same page as the form. It seemed like the most seamless approach, but the form was built across two steps: recipient details on one, bank details on another. There was no clean place to surface the result without it feeling disconnected from the relevant step.</p>
+            <p>It got more complicated when we found out Nium Verify could return specific error types. A name mismatch points back to the first step, incorrect bank details to the second. Handling that inline would have meant jumping users back and forth between steps in a way that felt more disorienting than helpful.</p>
+            <img src="images/vfy-process-02.png" alt="Early wireframes and adapted design" class="cs-process-img" />
+            <p>Moving the verification result to a dedicated page was the cleaner solution. It gave each error type room to explain itself clearly, with a CTA that redirected users to the right step to fix the specific issue.</p>
           </div>
 
           <div class="cs-process-step">
             <div class="cs-process-step-header">
               <span class="cs-process-step-num">03</span>
-              <h3 class="cs-process-step-title">Stakeholder reviews &amp; iteration</h3>
+              <h3 class="cs-process-step-title">Reviews and iteration</h3>
             </div>
-            <p>Shared early concepts with the product lead and engineering. Key feedback centred on the unsupported state and the tone of error copy. Iterated across several rounds toward outcome-oriented guidance. The contacts list status system was added after a review surfaced the need for persistent visibility post-save.</p>
-            <img src="images/process-03.png" alt="Iteration — reviewed screens and updated designs" class="cs-process-img" />
+            <p>Shared concepts with the PM and engineering across several rounds. Key feedback shaped the tone of the error copy and the treatment edge cases. Each round tightened the language and the logic behind each state.</p>
           </div>
 
         </div>
       </section>
 
-      <!-- ④ SOLUTION PART 1 — cream -->
-      <section class="cs-section bg-cream" id="solution-1">
+      <style>
+        .cs-process-step {
+          margin-top: 48px;
+        }
+        .cs-process-step-header {
+          display: flex;
+          align-items: baseline;
+          gap: 12px;
+          margin-bottom: 12px;
+        }
+        .cs-process-step-num {
+          font-family: var(--font-display);
+          font-size: 2rem;
+          color: var(--accent);
+          opacity: 1;
+          font-weight: 400;
+          flex-shrink: 0;
+        }
+        .cs-process-step-title {
+          font-family: var(--font-display);
+          font-size: clamp(1.2rem, 2vw, 1.5rem);
+          font-weight: 500;
+          color: var(--ink);
+          line-height: 1.2;
+          margin: 0;
+        }
+        .cs-process-img {
+          display: block;
+          width: 100%;
+          margin-top: 24px;
+          margin-bottom: 24px;
+          border-radius: 8px;
+          aspect-ratio: unset;
+          object-fit: cover;
+          background: rgba(255, 255, 255, 0);
+          border: 0px solid var(--sand);
+          /* Replace the src above with your image path — the styling will handle the rest */
+        }
+
+        .cs-divider {
+          border: none;
+          border-top: 1px solid var(--sand);
+          margin: 52px 0 48px;
+        }
+        .cs-subsection-title {
+          font-family: var(--font-display);
+          font-size: clamp(1.3rem, 2vw, 1.8rem);
+          font-weight: 400;
+          color: var(--ink);
+          margin-bottom: 20px;
+          line-height: 1.2;
+        }
+
+        .cs-solution-group {
+          margin: 20px 0;
+          border: 1px solid var(--sand);
+          border-radius: 8px;
+          overflow: hidden;
+          background: var(--warm-white);
+        }
+        .cs-solution-group-label {
+          font-size: 0.65rem;
+          font-weight: 500;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: var(--muted);
+          padding: 10px 16px;
+          border-bottom: 1px solid var(--sand);
+          background: var(--cream);
+        }
+        .cs-solution-group .cs-indicator-row {
+          padding: 14px 16px;
+          border-bottom: 1px solid rgba(196,186,176,0.2);
+          margin: 0;
+        }
+        .cs-solution-group .cs-indicator-row:last-child {
+          border-bottom: none;
+        }
+        .cs-insight-box {
+          margin: 28px 0;
+          padding: 20px 24px;
+          background: var(--accent-pale);
+          border-left: 3px solid var(--accent);
+          border-radius: 0 8px 8px 0;
+        }
+        .cs-insight-label {
+          font-size: 0.65rem;
+          font-weight: 500;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: var(--accent);
+          margin-bottom: 8px;
+        }
+        .cs-insight-box p {
+          font-size: 0.85rem;
+          line-height: 1.75;
+          color: var(--ink-soft);
+          margin: 0;
+        }
+        .cs-callout-box {
+          display: flex;
+          gap: 16px;
+          align-items: flex-start;
+          margin: 28px 0;
+          padding: 20px 24px;
+          background: var(--warm-white);
+          border: 1px solid var(--sand);
+          border-radius: 8px;
+        }
+        .cs-callout-icon {
+          font-size: 1.4rem;
+          flex-shrink: 0;
+          margin-top: 2px;
+        }
+        .cs-callout-box strong {
+          display: block;
+          font-size: 0.88rem;
+          font-weight: 500;
+          color: var(--ink);
+          margin-bottom: 6px;
+        }
+        .cs-callout-box p {
+          font-size: 0.83rem;
+          margin: 0;
+          line-height: 1.7;
+          color: var(--ink-soft);
+        }
+        .cs-outcome-cards {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 12px;
+          margin: 24px 0;
+        }
+        .cs-outcome-card-sm {
+          padding: 20px 18px;
+          background: var(--warm-white);
+          border: 1px solid var(--sand);
+          border-radius: 8px;
+        }
+        .cs-outcome-card-sm h5 {
+          font-size: 0.85rem;
+          font-weight: 500;
+          color: var(--ink);
+          margin-bottom: 6px;
+        }
+        .cs-outcome-card-sm p {
+          font-size: 0.78rem;
+          color: var(--ink-soft);
+          margin: 0;
+          line-height: 1.55;
+        }
+        @media (max-width: 700px) {
+          .cs-outcome-cards { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 420px) {
+          .cs-outcome-cards { grid-template-columns: 1fr; }
+        }
+      </style>
+
+      <!-- ④ SOLUTION — warm -->
+      <section class="cs-section bg-warm" id="solution-1">
         <div class="cs-section-inner">
-          <div class="cs-section-label">Solution 1/2</div>
-          <h2>Validate at the moment of creation, not payment</h2>
-          <p>I introduced the Nium Verify check inline within the add beneficiary flow. It runs as part of saving — no separate step, no extra friction for the common case. If there's an issue, users find out now, when it's easy to fix.</p>
+          <div class="cs-section-label">Solution</div>
+          <h2>Validate early. Surface the result everywhere it matters.</h2>
+          <p>The integration needed to do two things: catch bad data at the point of saving a recipient, and make sure that information stayed visible everywhere a user might act on it.</p>
+          <img src="images/vfy-process-03.png" alt="Verification check screens" class="cs-process-img" />
+          <div class="cs-divider"></div>
 
+          <h3 class="cs-subsection-title">The thing that wasn't in the brief</h3>
+          <p>Partway through the project, something occurred to me. Once a user saves a recipient, they land back on the contacts list. But there's nothing there to tell them whether that contact was verified, skipped, or flagged. For any recipient added before this feature existed, there's no signal at all. Users were essentially flying blind every time they picked a contact to pay.</p>
+          <p>I brought it to the product manager with that reasoning and it got added to scope. The solution was a persistent status badge on each contact in the list.</p>
           <div class="cs-screenshot-slot">
-            <span class="slot-icon">🖼</span>
-            <p>Insert screenshot — Add Beneficiary flow with Nium Verify inline check</p>
-          </div>
-
-          <p>I designed across four states, each with its own language and next action:</p>
-
-          <div class="cs-states">
-            <div class="cs-state-card">
-              <div class="cs-state-dot" style="background:#16A34A;"></div>
-              <div>
-                <h5>Verified</h5>
-                <p>Details confirmed. User proceeds with confidence. Clear positive signal, no extra steps.</p>
-              </div>
-            </div>
-            <div class="cs-state-card">
-              <div class="cs-state-dot" style="background:#D97706;"></div>
-              <div>
-                <h5>Unsupported</h5>
-                <p>Bank or country not covered by Nium Verify. User can still save — with a clear caveat, not a blocker.</p>
-              </div>
-            </div>
-            <div class="cs-state-card">
-              <div class="cs-state-dot" style="background:#DC2626;"></div>
-              <div>
-                <h5>Failed / Mismatch</h5>
-                <p>Details didn't check out. Plain-language guidance on what to review before saving.</p>
-              </div>
-            </div>
-            <div class="cs-state-card">
-              <div class="cs-state-dot" style="background:#94A3B8;"></div>
-              <div>
-                <h5>System Error</h5>
-                <p>Nium Verify temporarily unavailable. Graceful degradation — user isn't blocked, but is clearly informed.</p>
-              </div>
-            </div>
-          </div>
-
-          <p>The decision not to hard-block on unsupported or unverified states was intentional. Informed progression over forced gates — users understand the risk and make an explicit choice to continue.</p>
-        </div>
-      </section>
-
-      <!-- ④ SOLUTION PART 2 — warmwhite -->
-      <section class="cs-section bg-warm" id="solution-2">
-        <div class="cs-section-inner">
-          <div class="cs-section-label">Solution 2/2</div>
-          <h2>Surface the risk in the contacts list</h2>
-          <p>Validating at setup is only half the job. Users needed to see the status of every saved beneficiary at a glance — so they could spot problems before reaching the payment flow, not during.</p>
-          <p>I added a persistent status indicator to each contact in the list, kept to three states to avoid visual noise:</p>
-
-          <div class="cs-indicators">
-            <div class="cs-indicator-row">
-              <span class="cs-badge cs-badge-green">● Verified</span>
-              <p>Details confirmed by Nium Verify. No action needed.</p>
-            </div>
-            <div class="cs-indicator-row">
-              <span class="cs-badge cs-badge-amber">◐ Unverified</span>
-              <p>Verification wasn't completed — tooltip explains why (unsupported region, system error at time of saving).</p>
-            </div>
-            <div class="cs-indicator-row">
-              <span class="cs-badge cs-badge-red">⚠ Check details</span>
-              <p>Verification flagged an issue. Sending to this contact may delay or fail — review before transacting.</p>
-            </div>
-          </div>
-
+            <img src="images/vfy-solution-01.png" alt="Statuses on contacts list" class="cs-process-img" />
+           </div> 
+          <p>Most users will verify successfully and move on. But the feature only holds up if every outcome is handled clearly. Early drafts used technical language like "mismatched fields", "verification failed". That tells users what happened, not what to do. I rewrote every status to be clear to users: what to check and how to fix it.</p> 
           <div class="cs-screenshot-slot">
-            <span class="slot-icon">🖼</span>
-            <p>Insert screenshot — Contacts list with status indicators</p>
+          <img src="images/vfy-solution-02.png" alt="5 statuses" class="cs-process-img" style="width: 500px;"/>
           </div>
-        </div>
-      </section>
-
-      <!-- ⑤ DESIGN DECISIONS — pale accent -->
-      <section class="cs-section bg-pale" id="decisions">
-        <div class="cs-section-inner">
-          <div class="cs-section-label">Design Decisions</div>
-          <h2>Where the thinking happened</h2>
-
-          <div class="cs-decisions">
-            <div class="cs-decision">
-              <span class="cs-decision-label">Rewriting the error language</span>
-              <p>Early iterations used technical terms — "validation failed", "mismatched fields". Users needed to know what to do, not just what went wrong. I rewrote every failure state to be instructional: <em>"The account name doesn't match the bank's records — confirm the details with your beneficiary before saving."</em> The copy does the work that a tooltip or help article shouldn't have to.</p>
-            </div>
-            <div class="cs-decision">
-              <span class="cs-decision-label">Unsupported is not the same as invalid</span>
-              <p>This distinction mattered a lot. A beneficiary in a region Nium Verify doesn't cover yet is not a bad beneficiary. The design needed its own visual treatment and tone for this state — separate from the failure state — so users didn't distrust or delete legitimate contacts. Getting this wrong would have created real operational damage.</p>
-            </div>
-            <div class="cs-decision">
-              <span class="cs-decision-label">Three states, not five</span>
-              <p>The status system only works if users trust and act on it. I kept it to three states with concrete labels ("Verified", "Check details") rather than abstract confidence scores. Each state maps to a clear action. The fewer signals on a list view, the more each one means.</p>
-            </div>
-          </div>
-
+            <p>Furthermore, when a user selects any unverified recipient (or any existing recipient prior to the Verify integration) in the send money flow, we surface an inline warning. We don't want to block users from transacting, instead we just give users a clear heads-up that this recipient hasn't been verified and the transaction may be delayed or fail.</p>
           <div class="cs-screenshot-slot">
-            <span class="slot-icon">🖼</span>
-            <p>Insert screenshot — Failure / unsupported state detail</p>
+            <img src="images/vfy-solution-03.png" alt="Warning message in Send money flow" class="cs-process-img" style="width: 500px;"/>
           </div>
-        </div>
+          </div>
       </section>
 
       <!-- ⑥ OUTCOME — dark -->
       <section class="cs-section bg-dark" id="outcome">
         <div class="cs-section-inner">
           <div class="cs-section-label">Outcome</div>
-          <h2>Validation moved upstream.<br/>Problems caught earlier.</h2>
-          <p>The integration shifted beneficiary validation from a reactive, post-payment problem to a proactive checkpoint built into the existing workflow. Users now have visibility into the health of their contacts before they ever reach the payment flow.</p>
-          <p>It's also a good example of designing around a third-party API's real-world limits rather than its ideal-state behaviour. The unsupported and graceful degradation states were as carefully considered as the primary verified flow — because that's where the edge cases that erode trust actually live.</p>
+          <h2>Shipped, live, and measurable.</h2>
+          <p>The feature is live. Validation now happens at the point of saving a recipient, not at the point of payment. Users have visibility into the health of their contacts list before they ever start a transaction.</p>
           <div class="outcomes-grid">
             <div class="outcome-card">
               <div class="outcome-stat">20%</div>
-              <div class="outcome-label">reduction in failed transactions attributable to invalid beneficiary details post-rollout</div>
+              <div class="outcome-label">reduction in failed transactions from invalid recipient details</div>
             </div>
             <div class="outcome-card">
               <div class="outcome-stat">Earlier</div>
