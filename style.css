@@ -54,17 +54,6 @@ body::before {
   background-size: 256px 256px;
 }
 
-body::after {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: env(safe-area-inset-top);
-  background: var(--cream);
-  z-index: 99999;
-  pointer-events: none;
-}
 
 a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; }
