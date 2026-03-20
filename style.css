@@ -104,9 +104,9 @@ img { display: block; max-width: 100%; }
   padding-top: env(safe-area-inset-top);/* extends into safe area*/
   height: calc(var(--nav-h) + env(safe-area-inset-top)); /* taller to fill gap*/
   justify-content: space-between;
-  background: var(--cream); /*rgba(250,248,245,0.88)*/
-  /*backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);*/
+  background: rgba(250,248,245,0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid transparent;
   transition: border-color 0.3s var(--ease-soft);
 } 
