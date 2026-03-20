@@ -498,3 +498,14 @@ h1, h2, h3, h4, h5 {
   background: rgba(255, 255, 255, 0);
   border: 0px solid var(--sand);
 }
+
+/*handle mobile viewport height issue*/
+@supports (-webkit-touch-callout: none) {
+  .page-content {
+    padding-top: calc(var(--nav-h) + env(safe-area-inset-top));
+  }
+  nav {
+    padding-top: env(safe-area-inset-top);
+    height: calc(var(--nav-h) + env(safe-area-inset-top));
+  }
+}
