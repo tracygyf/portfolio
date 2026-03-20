@@ -27,7 +27,7 @@
    ============================================ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { font-size: 16px; scroll-behavior: smooth; }
+html { font-size: 16px; scroll-behavior: smooth; background: var(--cream); }
 
 body {
   background: var(--cream);
@@ -38,6 +38,8 @@ body {
   -webkit-font-smoothing: antialiased;
   position: relative;
   overflow-x: hidden;
+  background-attachment: fixed; /* add this */
+
 }
 
 /* Grain overlay */
@@ -507,3 +509,10 @@ h1, h2, h3, h4, h5 {
 
 /*handle mobile viewport height issue*/
 
+.cs-section,
+.hero,
+.selected-work,
+.page-content {
+  background-color: var(--cream);
+  position: relative;
+}
