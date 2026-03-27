@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Non-blocking RFIs · Tracy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="logo-head.png" />
+  <style>
+
+    /* ── LAYOUT ── */
+    .page-content {
+      padding-top: var(--nav-h);
+    }
+
+    .cs-wrapper {
+      display: block;
+      min-height: 100vh;
+    }
+
+    /* ── LEFT SIDEBAR ── */
+    .cs-sidebar {
+      position: fixed;
+      top: var(--nav-h);
+      left: 0;
+      width: 220px;
+      height: calc(100vh - var(--nav-h));
+      overflow-y: auto;
+      border-right: 1px solid var(--sand);
+      padding: 36px 0 40px;
+      display: flex;
+      flex-direction: column;
+      background: var(--cream);
+      z-index: 20;
+    }
+
+    .cs-sidebar-back {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      color: var(--muted);
+      padding: 0 28px 24px;
+      border-bottom: 1px solid var(--sand);
+      margin-bottom: 24px;
+      transition: color 0.2s;
+    }
+    .cs-sidebar-back:hover { color: var(--accent); }
+
+    .cs-sidebar-title {
+      font-family: var(--font-display);
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--ink);
+      padding: 0 28px;
+      margin-bottom: 18px;
+      line-height: 1.35;
+    }
+
+    .cs-nav {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      padding: 0 16px;
+      gap: 2px;
+      flex: 1;
+    }
+    .cs-nav a {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--muted);
+      padding: 7px 12px;
+      border-left: 2px solid transparent;
+      border-radius: 0 2px 2px 0;
+      transition: all 0.18s;
+    }
+    .cs-nav a:hover { color: var(--ink); background: var(--warm-white); }
+    .cs-nav a.active {
+      color: var(--accent);
+      border-left-color: var(--accent);
+      background: var(--accent-pale);
+      font-weight: 500;
+    }
+
+    .cs-sidebar-footer {
+      padding: 24px 28px 0;
+      border-top: 1px solid var(--sand);
+      margin-top: 16px;
+    }
+    .cs-sidebar-footer a {
+      font-size: 0.73rem;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 8px;
+      transition: color 0.2s;
+    }
+    .cs-sidebar-footer a:hover { color: var(--accent); }
+
+    /* ── MAIN ── */
+    .cs-main {
+      margin-left: 220px;
+      width: calc(100% - 220px);
+    }
+
+    /* ── BANDED SECTIONS ── */
+    .cs-section {
+      width: 100%;
+      scroll-margin-top: var(--nav-h);
+      display: block;
+    }
+    .cs-section-inner {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 80px 60px;
+    }
+
+    .cs-section.bg-cream  { background: var(--cream); }
+    .cs-section.bg-warm   { background: var(--warm-white); }
+    .cs-section.bg-pale   { background: var(--accent-pale); }
+    .cs-section.bg-sand   { background: var(--sand); }
+    .cs-section.bg-dark   { background: var(--ink); }
+    .cs-section.bg-dark .cs-section-label { color: var(--accent-light); }
+    .cs-section.bg-dark h2 { color: #F5F0EC; }
+    .cs-section.bg-dark p  { color: #B8B0A8; }
+    .cs-section.bg-dark .outcome-stat { color: var(--accent-light); }
+    .cs-section.bg-dark .outcome-label { color: #8A827C; }
+    .cs-section.bg-dark .outcome-card { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1); }
+
+    /* ── HERO ── */
+    .cs-hero-section { background: var(--accent-pale); }
+    .cs-hero-section .cs-section-inner {
+      max-width: 100%;
+      padding: 72px 40px 72px;
+      box-sizing: border-box;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      justify-content: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .cs-hero-right {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .cs-hero-right img {
+      width: 100%;
+      max-height: 420px;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    .cs-hero-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+
+    .cs-hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.6rem, 4.5vw, 4.8rem);
+      font-weight: 400;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+      max-width: 680px;
+    }
+    .cs-hero-title em { font-style: italic; color: var(--accent); }
+
+    .cs-hero-sub {
+      font-size: 1rem;
+      color: var(--ink-soft);
+      line-height: 1.72;
+      max-width: 520px;
+      margin-bottom: 48px;
+    }
+
+    .cs-meta-strip {
+      display: flex;
+      gap: 0;
+      border-top: 1px solid rgba(44,40,37,0.12);
+      flex-wrap: wrap;
+    }
+    .cs-meta-item {
+      padding: 18px 40px 18px 0;
+      margin-right: 40px;
+    }
+    .cs-meta-item:last-child { margin-right: 0; }
+    .cs-meta-label {
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .cs-meta-value {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    /* ── SECTION TYPOGRAPHY ── */
+    .cs-section-label {
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .cs-section h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 2.4vw, 2.2rem);
+      font-weight: 400;
+      line-height: 1.2;
+      margin-bottom: 22px;
+      color: var(--ink);
+    }
+    .cs-section p {
+      font-size: 0.93rem;
+      line-height: 1.85;
+      color: var(--ink-soft);
+      margin-bottom: 16px;
+    }
+    .cs-section p:last-child { margin-bottom: 0; }
+    .cs-section p strong { color: var(--ink); font-weight: 500; }
+
+    /* Quote */
+    .cs-quote {
+      margin: 32px 0;
+      padding: 24px 28px;
+      border-left: 3px solid var(--accent);
+      background: rgba(181,114,90,0.07);
+      border-radius: 0 6px 6px 0;
+    }
+    .cs-quote p {
+      font-family: var(--font-display);
+      font-size: 1.18rem;
+      font-style: italic;
+      line-height: 1.55;
+      color: var(--ink);
+      margin: 0;
+    }
+
+    /* Two-col cards */
+    .cs-two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 28px 0;
+    }
+    .cs-card {
+      background: var(--cream);
+      border: 1px solid var(--sand);
+      border-radius: 8px;
+      padding: 24px;
+    }
+    .cs-section.bg-warm .cs-card { background: var(--cream); }
+    .cs-section.bg-cream .cs-card { background: var(--warm-white); }
+    .cs-section.bg-pale .cs-card  { background: rgba(255,255,255,0.55); }
+    .cs-card-icon {
+      width: 34px; height: 34px;
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      margin-bottom: 14px;
+    }
+    .cs-card h4 {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .cs-card p { font-size: 0.82rem; margin: 0; }
+
+    /* Constraint block */
+    .cs-constraint {
+      background: var(--warm-white);
+      border: 1px solid var(--sand);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 6px 6px 0;
+      padding: 20px 24px;
+      margin: 28px 0;
+    }
+    .cs-section.bg-warm .cs-constraint { background: var(--cream); }
+    .cs-constraint .cs-section-label { margin-bottom: 6px; }
+    .cs-constraint p { font-size: 0.83rem; margin: 0; }
+
+    /* Steps */
+    .cs-steps { margin: 24px 0; }
+    .cs-step {
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 18px;
+      padding: 22px 0;
+      border-bottom: 1px solid rgba(196,186,176,0.35);
+    }
+    .cs-step:first-child { border-top: 1px solid rgba(196,186,176,0.35); }
+    .cs-step-num {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: var(--accent);
+      opacity: 1;
+      line-height: 1;
+      padding-top: 2px;
+    }
+    .cs-step-title { font-size: 0.85rem; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+    .cs-step-desc  { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+    
+    /* Images */
+    .cs-image { margin: 32px 0; border-radius: 8px; overflow: hidden; }
+    .cs-image img { width: 100%; display: block; }
+    .cs-image figcaption {
+      padding: 9px 14px;
+      font-size: 0.7rem;
+      color: var(--muted);
+      background: var(--warm-white);
+      border: 1px solid var(--sand);
+      border-top: none;
+      border-radius: 0 0 8px 8px;
+    }
+    .cs-image-2col {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 32px 0;
+    }
+    .cs-image-2col .cs-image { margin: 0; }
+
+    /* Screenshot slot */
+    .cs-screenshot-slot {
+      background: rgba(196,186,176,0.15);
+      border: 1.5px dashed var(--stone);
+      border-radius: 10px; padding: 44px 40px;
+      text-align: center; margin: 28px 0;
+    }
+    .cs-screenshot-slot .slot-icon { font-size: 24px; display: block; margin-bottom: 8px; }
+    .cs-screenshot-slot p { font-size: 0.78rem; color: var(--muted); margin: 0; font-style: italic; }
+
+    /* Design decisions */
+    .cs-decisions { margin: 8px 0; }
+    .cs-decision {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 28px;
+      align-items: start;
+      padding: 24px 0;
+      border-top: 1px solid rgba(196,186,176,0.35);
+    }
+    .cs-decision:last-child { border-bottom: 1px solid rgba(196,186,176,0.35); }
+    .cs-decision-label {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--ink);
+      padding-top: 2px;
+      line-height: 1.4;
+    }
+    .cs-decision p { font-size: 0.83rem; margin: 0; line-height: 1.75; }
+
+    /* Outcomes */
+    .outcomes-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 28px 0;
+    }
+    .outcome-card {
+      padding: 24px 18px; border-radius: 8px; text-align: center;
+      border: 1px solid var(--sand); background: var(--cream);
+    }
+    .outcome-stat {
+      font-family: var(--font-display);
+      font-size: 2rem; font-weight: 400; color: var(--accent);
+      line-height: 1; margin-bottom: 8px;
+    }
+    .outcome-label { font-size: 0.72rem; color: var(--muted); line-height: 1.45; }
+
+    /* Metric placeholder */
+    .cs-metric-placeholder {
+      display: inline-block;
+      border: 1px dashed rgba(255,255,255,0.3);
+      border-radius: 6px;
+      padding: 14px 18px;
+      margin-top: 20px;
+      font-size: 0.8rem;
+      font-style: italic;
+      color: rgba(255,255,255,0.45);
+    }
+
+    /* Next project */
+    .cs-next-section { background: var(--ink); }
+    .cs-next-section .cs-section-inner { padding: 72px 60px; max-width: 100%; }
+    .cs-next-label {
+      font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 12px;
+    }
+    .cs-next-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3vw, 3rem);
+      font-weight: 400; color: var(--ink);
+      margin-bottom: 28px; line-height: 1.15;
+    }
+    .cs-next-link {
+      display: inline-flex; align-items: center; gap: 10px;
+      color: var(--accent); font-size: 0.83rem; font-weight: 500;
+      transition: gap 0.2s;
+    }
+    .cs-next-link:hover { gap: 16px; }
+
+    /* Process steps — same as cs-verify */
+    .cs-process-step { margin-top: 48px; }
+    .cs-process-step-header {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .cs-process-step-num {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      color: var(--accent);
+      opacity: 1;
+      font-weight: 400;
+      flex-shrink: 0;
+    }
+    .cs-process-step-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.2rem, 2vw, 1.5rem);
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.2;
+      margin: 0;
+    }
+    .cs-process-img {
+      display: block;
+      width: 100%;
+      margin-top: 24px;
+      margin-bottom: 24px;
+      border-radius: 8px;
+      aspect-ratio: unset;
+      object-fit: cover;
+      background: rgba(255,255,255,0);
+      border: 0px solid var(--sand);
+    }
+    .cs-divider {
+      border: none;
+      border-top: 1px solid var(--sand);
+      margin: 52px 0 48px;
+    }
+    .cs-subsection-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.3rem, 2vw, 1.8rem);
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .cs-sidebar { display: none; }
+      .cs-main { margin-left: 0; width: 100%; }
+      .cs-hero-section .cs-section-inner,
+      .cs-cover-wrap { padding-left: 24px; padding-right: 24px; }
+      .cs-section-inner { padding: 48px 20px; }
+      .cs-image-2col { grid-template-columns: 1fr; }
+      .outcomes-grid { grid-template-columns: 1fr 1fr; }
+      .cs-two-col { grid-template-columns: 1fr; }
+      .cs-decision { grid-template-columns: 1fr; gap: 6px; }
+      .cs-next-section .cs-section-inner { padding: 48px 20px; }
+      .cs-hero-section .cs-section-inner {
+        grid-template-columns: 1fr;
+        padding: 48px 24px 40px;
+      }
+      .cs-hero-right { justify-content: center; }
+    }
+
+    @media (max-width: 560px) {
+      .cs-meta-strip { flex-direction: column; }
+      .cs-meta-item { padding: 12px 0; border-bottom: 1px solid rgba(44,40,37,0.08); margin-right: 0; }
+      .outcomes-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="nav">
+    <a href="index.html" class="nav-logo">
+      <img src="logo.png" alt="" class="nav-logo-img" />
+      Tracy
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Work</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="mailto:tracy@email.com" class="nav-cta">Say hello</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-content">
+  <div class="cs-wrapper">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="cs-sidebar">
+      <a href="index.html#works" class="cs-sidebar-back">← All work</a>
+      <div class="cs-sidebar-title">Non-blocking RFIs</div>
+      <ul class="cs-nav" id="cs-nav">
+        <li><a href="#overview"   class="active">Overview</a></li>
+        <li><a href="#problem"                  >Problem</a></li>
+        <li><a href="#process"                  >Process</a></li>
+        <li><a href="#solution"                 >Solution</a></li>
+        <li><a href="#outcome"                  >Outcome</a></li>
+      </ul>
+    </aside>
+
+    <main class="cs-main">
+
+      <!-- ① HERO -->
+      <section class="cs-section cs-hero-section" id="overview">
+        <div class="cs-section-inner">
+          <div>
+            <h1 class="cs-hero-title fade-up">
+              Compliance requests, without the <em>urgency</em>
+            </h1>
+            <p class="cs-hero-sub fade-up delay-1">
+              Some transactions get flagged by compliance based on things like keyword matches, transaction amounts, or risk indicators. The portal handled this by blocking the transaction to request more information from the client. Now there are 2 new compliance request types. Neither blocks a transaction, but both still need a response.
+            </p>
+            <div class="cs-meta-strip fade-up delay-2">
+              <div class="cs-meta-item">
+                <div class="cs-meta-label">Role</div>
+                <div class="cs-meta-value">Product Designer</div>
+              </div>
+              <div class="cs-meta-item">
+                <div class="cs-meta-label">Platform</div>
+                <div class="cs-meta-value">Business Portal</div>
+              </div>
+              <div class="cs-meta-item">
+                <div class="cs-meta-label">Focus</div>
+                <div class="cs-meta-value">UX · Interaction · Copy</div>
+              </div>
+            </div>
+          </div>
+          <div class="cs-hero-right">
+            <img src="images/rfi.png" alt="RFI Business Portal" />
+          </div>
+        </div>
+      </section>
+
+      <!-- ② PROBLEM — warm white -->
+      <section class="cs-section bg-warm" id="problem">
+        <div class="cs-section-inner">
+          <div class="cs-section-label">Problem</div>
+          <h2>Same system, different stakes</h2>
+
+          <p>When a transaction gets flagged (based on things like keywords, amounts, or risk indicators) the compliance team sometimes require more information before they can sign off. These requests are called RFIs. There are three types, and they don't all work the same way.</p>
+
+          <p>The existing portal was built to already handle Normal RFIs. When one is raised, the transaction pauses and the client has to respond before funds go anywhere. That experience was working well. We have clear alerts, a response interface, approver notifications and consequence language if nothing gets done.</p>
+
+          <p>The new ask was to add the 2 other types: Additional RFIs and Alert RFIs. Both are non-blocking. This means that the transaction keeps moving, funds can land and the request can come in at any point, including after everything is done and dusted.</p>
+
+          <div class="cs-two-col">
+            <div class="cs-card">
+              <div class="cs-card-icon" style="background:#F2E8E4;">⏸️</div>
+              <h4>Normal RFI</h4>
+              <p>Transaction is paused. The client needs to respond within 15 days before anything moves forward, else the transaction will be cancelled.</p>
+            </div>
+            <div class="cs-card">
+              <div class="cs-card-icon" style="background:#EEF2FF;">▶️</div>
+              <h4>Additional RFI and Alert RFI</h4>
+              <p>Transaction keeps processing. The request can arrive at any point, including after completion. These are still required to be filled up by users, just not as urgent.</p>
+            </div>
+          </div>
+
+          <div class="cs-constraint">
+            <div class="cs-section-label">Objective</div>
+            <p>Give compliance the ability to raise non-blocking RFIs for clients, and give clients a clear way to respond through the portal.  While doing so, we make sure that transactions keep processing, audit requirements are met, and clients understand what is being asked of them.</p>
+          </div>
+
+          <p>This task wasn't about building an RFI experience from scratch. It was fitting a quieter, lower urgency request type into a system that was built to feel urgent. If it was too similar to the existing blocking RFI, clients would panic over a routine request. If it was too understated, then clients would ignore it entirely.</p>
+
+          <img src="images/rfi-problem-01.png" alt="Blocking and Non-blocking RFI processes" class="cs-process-img" />
+          </div>
+
+      <!-- ③ PROCESS — cream -->
+      <section class="cs-section bg-cream" id="process">
+        <div class="cs-section-inner">
+          <div class="cs-section-label">Process</div>
+          <h2>Working through the extension</h2>
+
+          <div class="cs-process-step">
+            <div class="cs-process-step-header">
+              <span class="cs-process-step-num">01</span>
+              <h3 class="cs-process-step-title">Understanding what already existed</h3>
+            </div>
+            <p>The first thing I did was map the existing Normal RFI flow end to end. Understanding what was already there mattered before adding anything since the goal was to extend the system. I went through every touchpoint: the dashboard alert, the held status on the transaction summary, the response interface on the detail page. That became the reference point for what the new types needed to feel consistent with, without being identical.</p>
+            <!-- Image slot -->
+            <img src="images/rfi-process-01.png" alt="Existing blocking RFI process" class="cs-process-img" />
+          </div>
+
+          <div class="cs-process-step">
+            <div class="cs-process-step-header">
+              <span class="cs-process-step-num">02</span>
+              <h3 class="cs-process-step-title">Figuring out urgency</h3>
+            </div>
+            <p>The blocking RFI experience was deliberately high-signal, with prominent alerts and explicit consequence language.  That was right for a held transaction where time matters and there are real consequences for ignoring it. </p> 
+            <p>However, non-blocking RFIs needed a different tone within the same surfaces.</p>
+            <p>The answer was colour: Red and blue.</p>
+            <!-- Image slot -->
+            <img src="images/rfi-process-02.png" alt="RFI colours" class="cs-process-img" />
+          </div>
+
+          <div class="cs-process-step">
+            <div class="cs-process-step-header">
+              <span class="cs-process-step-num">03</span>
+              <h3 class="cs-process-step-title">Working out where it needed to appear</h3>
+            </div>
+            <p>A blocking RFI gets noticed because the client is already looking for it. Their transaction is stuck and they want to know why. A non-blocking RFI might arrive on a transaction the client considers closed, so the design couldn't rely on them going back to look.</p>
+            <p>Three places made sense.</p>
+
+            <div class="cs-steps">
+            <div class="cs-step">
+              <div class="cs-step-num">ℹ️</div>
+              <div>
+                <div class="cs-step-title">1. Pop-up from RFI widget on the Dashboard and Transactions page</div>
+                <div class="cs-step-desc">Non-blocking RFIs appear in their own tab alongside blocking ones, so clients get a full picture of everything pending when they click in.</div>
+              </div>
+            </div>
+            <div class="cs-step">
+              <div class="cs-step-num">📄</div>
+              <div>
+                <div class="cs-step-title">2. Transaction details page</div>
+                <div class="cs-step-desc">No matter what status the transaction is in, if a non-blocking RFI is open, a section appears on the page showing that information is required. Clients who land on the detail page for any reason (from search, history or an email link) will see it.</div>
+              </div>
+            </div>
+            <div class="cs-step">
+              <div class="cs-step-num">✉️</div>
+              <div>
+                <div class="cs-step-title">3. Emails</div>
+                <div class="cs-step-desc">For clients who don't log in regularly, the notification email is often the first and only prompt they'll see. The templates needed to carry enough context on their own, namely, what's being asked, which transaction it relates to, and a direct link to respond so that clients could act without needing to contact support first.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cs-process-step">
+            <div class="cs-process-step-header">
+              <span class="cs-process-step-num">04</span>
+              <h3 class="cs-process-step-title">Reviews and iteration</h3>
+            </div>
+            <p>I shared early concepts with the product manager and compliance team across several rounds. Their input shaped the copy for the notification emails, particularly the right level of explanation without being alarming, and the variable fields needed for the reminder template.</p>
+          </div>
+
+        </div>
+      </section>
+
+       <!-- ④b DESIGN DECISIONS — warm -->
+      <section class="cs-section bg-warm" id="decisions">
+        <div class="cs-section-inner">
+          <div class="cs-section-label">Design Decision</div>
+          <h2>Should we have just made everything red?</h2>
+          <img src="images/rfi-decision-01.png" alt="Red vs Blue" class="cs-process-img" />
+          <p>There was a real question during the process when compliance suggested to flatten the visual treatment by making blocking and non-blocking RFIs look the same to drive better response rates from clients. If there were different visual treatments, clients might feel that non-blocking RFIs have no immediate consequence and deprioritise them.</p>
+
+          <p>We ultimately decided against it as misrepresenting urgency to nudge behaviour tends to backfire. Once clients notice that "red" doesn't always mean something is actually at risk, the signal loses its meaning. The next time they see a red RFI, they might assume it's another low-urgency one and ignore it anyway.</p>
+
+          <div class="cs-quote">
+            <p>The goal was to keep the distinction honest and use copy to communicate the real downstream consequences instead.</p>
+          </div>
+
+          <p>Non-blocking RFIs include clear disclaimers that pending requests may affect the client's ability to transact in future. That's accurate, not alarming, and gives clients a genuine reason to act. Combined with reminder emails that continue until the RFI is resolved, the system creates sustained pressure without crying wolf.</p>
+        </div>
+      </section>
+
+      <!-- ④ SOLUTION — cream -->
+      <section class="cs-section bg-cream" id="solution">
+        <div class="cs-section-inner">
+          <div class="cs-section-label">Solution</div>
+          <h2>Designing for complexity across every entry path</h2>
+          <p>The flow needed to work whether a client came in through the dashboard or landed directly on a transaction detail page. Both paths had to feel coherent, and both had to handle the same underlying complexity: a mix of RFI types, each with different urgency, potentially stacked on the same transaction.</p>
+
+          <div class="cs-process-step">
+            <div class="cs-process-step-header">
+              <span class="cs-process-step-num">01</span>
+              <h3 class="cs-process-step-title">The Dashboard: a single place to see everything pending</h3>
+            </div>
+          <p>The portal already had a "Transactions requiring information" widget on the dashboard showing a count of pending RFIs. I kept it as is since the widget itself worked. What I added was the behaviour when you clicked on it. Previously there was nothing. </p>
+          <p>Now clicking on it opens a pop-up that lists all pending RFIs across the client's transactions. Clients can see everything that needs their attention in one place without having to go hunting through individual transactions.</p>
+
+          <img src="images/rfi-solution-01.png" alt="Dashboard widget showing pending RFI count" class="cs-process-img" />
+
+          <p>The pop-up splits into two tabs. Blocking RFIs (that are high in priority) come first since they're tied to held transactions, they have due dates, and ignoring them has real consequences. Non-blocking RFIs (Normal priority) sit in the second tab. Still required, but the transaction is not affected by the RFI. The tab order communicates priority without having to spell it out.</p>
+          <p>From either tab, clicking on "Respond" takes the client straight to that specific transaction detail page, where the RFI pop-up opens automatically.</p>
+
+          <img src="images/rfi-solution-02.png" alt="High priority tab" class="cs-process-img" />
+          <img src="images/rfi-solution-03.png" alt="Normal priority tab" class="cs-process-img" />
+
+
+          <div class="cs-process-step">
+            <div class="cs-process-step-header">
+              <span class="cs-process-step-num">02</span>
+              <h3 class="cs-process-step-title">The Transaction Details page: designed for multiple states</h3>
+            </div>
+          <p>Not every client comes in through the dashboard. Some land directly on a transaction detail page from an email link, from search or from their transaction history. The design had to hold up from this entry point too, which meant thinking carefully about all the states it could be in.</p>
+          <p>If there are multiple RFIs on one transaction, they appear as a list. Blocking RFIs sit at the top in red with a visible due date. Non-blocking RFIs follow in blue, which are present and actionable, but clearly lower priority. The colour and order do the work so clients don't have to read through everything to understand what matters most.</p>
+          <p>Each row in the list represents one RFI. Compliance submits requests in batches by selecting all the documents or information they need at once and compiling them into one form. Each row maps to one complete form rather than one individual field. Clicking "Respond" on any row opens the RFI pop-up, which the client fills in and submits.</p>
+          
+          <!--<div class="cs-constraint">
+            <div class="cs-section-label">Design decision</div>
+            <p>There was a real question during the process about whether to flatten the visual treatment. Compliance requested to make blocking and non-blocking RFIs look the same. Both would have red colour titles with due dates tied to them so clients couldn't tell the difference. If clients can see that non-blocking RFIs have no immediate consequence, some will deprioritise them. Instead, uniform urgency would drive better response rates.</p>
+            <p>We ultimately decided against it as misrepresenting urgency to nudge behaviour tends to backfire. Once clients notice that "red" doesn't always mean something is actually at risk, the signal loses its meaning. The next time they see a red RFI, they might assume it's another low-urgency one and ignore it anyway — and now you've broken the one thing that was working.</p>
+            <p>The goal was to keep the distinction honest and use copy to communicate the real downstream consequences instead.</p>          
+            <p>Non-blocking RFIs include a clear note that pending requests may affect the client's ability to transact in future. That's accurate, not alarmist, and gives clients a genuine reason to act. Combined with reminder emails that continue until the RFI is resolved, the system creates sustained pressure without crying wolf.</p>
+          </div>-->
+
+          <img src="images/rfi-solution-04.png" alt="Transaction detail page with multiple mixed RFIs" class="cs-process-img" />
+
+          <div class="cs-process-step">
+            <div class="cs-process-step-header">
+              <span class="cs-process-step-num">03</span>
+              <h3 class="cs-process-step-title">Getting the transitions right</h3>
+            </div>
+          <p>One of the things I spent time on was what happens after a client submits an RFI. It sounds straightforward but there were different outcomes depending on what was left, and getting the wrong one would have left clients unsure whether they were done.</p>
+
+          <div class="cs-two-col">
+            <div class="cs-card">
+              <div class="cs-card-icon" style="background:#F2E8E4;">>1</div>
+              <h4>More than one RFI still pending</h4>
+              <p>The list view stays, updated to show what's been resolved and what's still open.</p>
+            </div>
+            <div class="cs-card">
+              <div class="cs-card-icon" style="background:#F2E8E4;">1</div>
+              <h4>Only one RFI remaining</h4>
+              <p>The view switches from the list to the single RFI state, so the last remaining item gets the right level of focus.</p>
+            </div>
+          </div>
+
+          <p>If everything is done, the page returns to the standard transaction detail view. For non blocking RFIs, transaction status remains processing or completed. For blocking RFIs, we show a status confirming the submission is under review.</p>
+
+
+          <div class="cs-process-step">
+            <div class="cs-process-step-header">
+              <span class="cs-process-step-num">04</span>
+              <h3 class="cs-process-step-title">Email notifications</h3>
+            </div>
+          <p>For clients who don't log into the portal regularly, email was the most important touchpoint. We used 2 email templates, one for when an RFI is first raised, one as a reminder for clients who haven't responded yet. Both include the client name, the count of pending RFIs, and a direct link to the transaction summary page. Enough context to understand what's needed and where to go, without having to contact support first.</p>
+
+          <div class="cs-image-2col">
+            <figure class="cs-image">
+              <img src="images/rfi-solution-05.png" alt="Initial RFI notification email" />
+              <figcaption>Initial notification email (sent once)</figcaption>
+            </figure>
+            <figure class="cs-image">
+              <img src="images/rfi-solution-06.png" alt="RFI reminder email" />
+              <figcaption>Reminder email with pending RFI count (sent daily until all RFIs are submitted)</figcaption>
+            </figure>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ⑤ OUTCOME — dark -->
+      <section class="cs-section bg-dark" id="outcome">
+        <div class="cs-section-inner">
+          <div class="cs-section-label">Outcome</div>
+          <h2>Compliance without the noise</h2>
+          <p>The non-blocking RFI flow gave the compliance team a reliable channel to follow up on completed transactions without resorting to ad hoc emails or support tickets. Clients now have a consistent experience whether their transaction is held or already complete.</p>
+          <p>The emails reduced response friction. Clients could understand what was needed from the notification itself without having to contact support for context first. And by keeping the visual language clearly distinct from blocking RFIs, the new flow avoided creating unnecessary alarm around routine compliance requests.</p>
+        </div>
+      </section>
+
+       <!-- ⑦ NEXT -->
+      <section class="cs-section bg-pale">
+        <div class="cs-section-inner">
+          <div class="cs-next-label">Next project</div>
+          <div class="cs-next-title" style="color:var(--ink);">Design system — <br/><em style="font-style:italic;color:var(--accent);">Revamp</em></div>
+          <a href="cs-design-system.html" class="cs-next-link" style="color:var(--accent);">View case study →</a>
+        </div>
+      </section>
+
+      <footer style="margin-top: 0">
+        <span class="footer-name">Tracy.</span>
+        <ul class="footer-links">
+          <li><a href="https://www.linkedin.com/in/tracygyf/" target="_blank">LinkedIn</a></li>
+          <li><a href="mailto:tracy@email.com">Email</a></li>
+        </ul>
+        <span class="footer-copy">© 2026 Tracy</span>
+      </footer>
+    </main>
+  </div>
+  </div>
+
+  <script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 20));
+
+    document.querySelectorAll('.fade-up').forEach(el => {
+      el.style.animationPlayState = 'running';
+    });
+
+    const sections = document.querySelectorAll('.cs-section[id]');
+    const navLinks = document.querySelectorAll('#cs-nav a');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => { if (window.scrollY >= s.offsetTop - 140) current = s.id; });
+      navLinks.forEach(a => { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+    }, { passive: true });
+
+    const ua = navigator.userAgent || '';
+    const isInApp = /Telegram|Instagram|FBAN|FBAV|Twitter|Line|WeChat|MicroMessenger/i.test(ua);
+    if (isInApp) document.getElementById('inapp-banner').style.display = 'block';
+  </script>
+</body>
+</html>
